@@ -10,8 +10,8 @@ namespace TacticalGame.Grid
     /// </summary>
     public readonly struct HexCoord : IEquatable<HexCoord>
     {
-        public readonly int Q;
-        public readonly int R;
+        public int Q { get; }
+        public int R { get; }
         public int S => -Q - R;
 
         public static readonly HexCoord Zero = new(0, 0);

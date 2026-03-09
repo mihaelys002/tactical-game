@@ -1,0 +1,8 @@
+#!/bin/sh
+echo "Running analyzers..."
+dotnet build --no-restore -c Debug 2>&1
+if [ $? -ne 0 ]; then
+    echo ""
+    echo "Pre-commit: build failed. Fix analyzer errors before committing."
+    exit 1
+fi

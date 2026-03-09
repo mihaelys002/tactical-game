@@ -5,7 +5,7 @@ namespace TacticalGame.AI
 {
     public class AIBrain
     {
-        public AIAction? DecideAction(Unit unit, AIBlackboard blackboard)
+        public static AIAction? DecideAction(Unit unit, AIBlackboard blackboard)
         {
             var candidates = new List<AIAction>();
 
@@ -22,7 +22,7 @@ namespace TacticalGame.AI
             return best;
         }
 
-        private void ScoreAttacks(Unit unit, AIBlackboard blackboard, List<AIAction> candidates)
+        private static void ScoreAttacks(Unit unit, AIBlackboard blackboard, List<AIAction> candidates)
         {
             foreach (var enemy in blackboard.Enemies)
             {
@@ -39,7 +39,7 @@ namespace TacticalGame.AI
             }
         }
 
-        private void ScoreMoves(Unit unit, AIBlackboard blackboard, List<AIAction> candidates)
+        private static void ScoreMoves(Unit unit, AIBlackboard blackboard, List<AIAction> candidates)
         {
             var grid = blackboard.Battle.Grid;
             Unit? closestEnemy = FindClosestEnemy(unit, blackboard.Enemies);
@@ -63,7 +63,7 @@ namespace TacticalGame.AI
             }
         }
 
-        private Unit? FindClosestEnemy(Unit unit, IReadOnlyList<Unit> enemies)
+        private static Unit? FindClosestEnemy(Unit unit, IReadOnlyList<Unit> enemies)
         {
             Unit? closest = null;
             int closestDistance = int.MaxValue;
