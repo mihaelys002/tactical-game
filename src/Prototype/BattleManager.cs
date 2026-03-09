@@ -234,17 +234,16 @@ namespace TacticalGame.Prototype
 
         private static PlanAction DefaultPlanner()
         {
-            var brain = new AIBrain();
             return (unit, battle, allies, enemies) =>
             {
                 var bb = new AIBlackboard(battle, allies, enemies);
-                return brain.DecideAction(unit, bb);
+                return AIBrain.DecideAction(unit, bb);
             };
         }
 
         // ─── Setup (prototype only) ──────────────────────────────────────
 
-        private HexGrid CreateGrid()
+        private static HexGrid CreateGrid()
         {
             var grid = new HexGrid();
             int radius = 7;

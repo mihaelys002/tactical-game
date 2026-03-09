@@ -78,7 +78,7 @@ namespace TacticalGame.Grid
             _lootSet.Remove(loot);
         }
 
-        public void ApplyDamage(Unit unit, int amount)
+        public static void ApplyDamage(Unit unit, int amount)
         {
             var stats = unit.Stats;
             int remaining = amount;
@@ -94,19 +94,19 @@ namespace TacticalGame.Grid
                 stats.CurrentHP -= remaining;
         }
 
-        public void ApplyFatigue(Unit unit, int amount)
+        public static void ApplyFatigue(Unit unit, int amount)
         {
             var stats = unit.Stats;
             stats.CurrentFatigue = Math.Min(stats.MaxFatigue, stats.CurrentFatigue + amount);
         }
 
-        public void RecoverFatigue(Unit unit, int amount)
+        public static void RecoverFatigue(Unit unit, int amount)
         {
             var stats = unit.Stats;
             stats.CurrentFatigue = Math.Max(0, stats.CurrentFatigue - amount);
         }
 
-        public void ChangeMorale(Unit unit, int delta)
+        public static void ChangeMorale(Unit unit, int delta)
         {
             var stats = unit.Stats;
             stats.Morale = Math.Clamp(stats.Morale + delta, 0, 100);

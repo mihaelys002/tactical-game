@@ -38,7 +38,8 @@ namespace TacticalGame.Prototype
 
         public Task PlaySwing()
         {
-            // Future: play swing animation
+            // Future: play swing animation using instance sprite/animation
+            QueueRedraw();
             return Task.CompletedTask;
         }
 

@@ -125,7 +125,7 @@ Console.WriteLine("=== TEST 3: Actual AI DecideAction ===");
     // Single
     var sw = Stopwatch.StartNew();
     for (int i = 0; i < allUnits.Count; i++)
-        brain.DecideAction(allUnits[i], bb);
+        AIBrain.DecideAction(allUnits[i], bb);
     sw.Stop();
     long singleMs = sw.ElapsedMilliseconds;
 
@@ -133,7 +133,7 @@ Console.WriteLine("=== TEST 3: Actual AI DecideAction ===");
     sw.Restart();
     Parallel.For(0, allUnits.Count, i =>
     {
-        brain.DecideAction(allUnits[i], bb);
+        AIBrain.DecideAction(allUnits[(int)i], bb);
     });
     sw.Stop();
     long parallelMs = sw.ElapsedMilliseconds;
