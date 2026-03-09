@@ -21,6 +21,3 @@ jobs:
 
       - name: Build (with analyzers)
         run: dotnet build --no-restore -c Debug
-
-      - name: Build tests
-        run: dotnet build --no-restore -c Debug tests/BattleTest/BattleTest.csproj
