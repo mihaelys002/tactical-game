@@ -14,24 +14,17 @@ A turn-based tactical RPG inspired by **Battle Brothers**. Players command a mer
 tactical-game/
 ├── CLAUDE.md
 ├── project.godot
+├── src/
+│   ├── Grid/        # Core model (pure C#, no Godot)
+│   ├── AI/          # Decision-making (reads state, never mutates)
+│   └── Prototype/   # Godot visualization + orchestration
 └── docs/
-    ├── architecture/   # Scene tree design, system boundaries, data flow
-    ├── gameplay/       # Rules, mechanics, balance parameters
-    ├── systems/        # Per-system technical notes (combat, units, grid, etc.)
-    ├── ai/             # AI architecture and enemy behavior
-    └── art/            # Asset pipeline, naming conventions, style guide
 ```
 
 ## Docs Index
 | File | Contents |
 |---|---|
-| `docs/architecture/scene-structure.md` | Scene tree, autoloads |
-| `docs/architecture/data-flow.md` | How data moves between systems |
-| `docs/gameplay/combat-rules.md` | Combat mechanics and rules |
-| `docs/gameplay/unit-stats.md` | Unit stats and progression |
-| `docs/systems/hex-grid.md` | Hex grid implementation |
-| `docs/systems/combat-system.md` | Combat system design |
-| `docs/systems/turn-manager.md` | Turn order and AP management |
-| `docs/ai/ai-overview.md` | AI architecture |
-| `docs/ai/enemy-behaviors.md` | Enemy types and behaviors |
-| `docs/art/asset-pipeline.md` | Art pipeline and conventions |
+| `docs/turn-loop.md` | Plan → execute → replan loop |
+| `docs/commands.md` | IBattleCommand, undo, damage calc |
+| `docs/visualization.md` | UnitVisual, CommandVisual, orchestrator |
+| `docs/state.md` | BattleState, HexCell, dead units, teams |
