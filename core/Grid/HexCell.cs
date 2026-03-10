@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace TacticalGame.Grid
@@ -25,19 +24,5 @@ namespace TacticalGame.Grid
             Elevation = elevation;
         }
 
-        public void WriteTo(BinaryWriter writer)
-        {
-            Coord.WriteTo(writer);
-            writer.Write((int)Terrain);
-            writer.Write(Elevation);
-        }
-
-        public static HexCell ReadFrom(BinaryReader reader)
-        {
-            var coord = HexCoord.ReadFrom(reader);
-            var terrain = (TerrainType)reader.ReadInt32();
-            var elevation = reader.ReadInt32();
-            return new HexCell(coord, terrain, elevation);
-        }
     }
 }
