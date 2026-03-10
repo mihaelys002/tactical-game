@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace TacticalGame.Grid
 {
@@ -45,17 +44,6 @@ namespace TacticalGame.Grid
         {
             var d = this - other;
             return (Math.Abs(d.Q) + Math.Abs(d.R) + Math.Abs(d.Q + d.R)) / 2;
-        }
-
-        public void WriteTo(BinaryWriter writer)
-        {
-            writer.Write(Q);
-            writer.Write(R);
-        }
-
-        public static HexCoord ReadFrom(BinaryReader reader)
-        {
-            return new HexCoord(reader.ReadInt32(), reader.ReadInt32());
         }
 
         public static HexCoord operator +(HexCoord a, HexCoord b) => new(a.Q + b.Q, a.R + b.R);
