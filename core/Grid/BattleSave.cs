@@ -23,7 +23,7 @@ namespace TacticalGame.Grid
                 loot.WriteTo(writer);
         }
 
-        public static BattleState Load(BinaryReader reader)
+        public static BattleState Load(BinaryReader reader, EquipmentRegistry registry)
         {
             // Cells
             var grid = new HexGrid();
@@ -40,7 +40,7 @@ namespace TacticalGame.Grid
             int unitCount = reader.ReadInt32();
             for (int i = 0; i < unitCount; i++)
             {
-                var unit = Unit.ReadFrom(reader);
+                var unit = Unit.ReadFrom(reader, registry);
                 battle.PlaceUnit(unit, unit.Position);
             }
 

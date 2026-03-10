@@ -78,6 +78,36 @@ namespace TacticalGame.Grid
             _lootSet.Remove(loot);
         }
 
+        public void Equip(Unit unit, Equipment equipment)
+        {
+            if (!HasUnit(unit))
+                throw new InvalidOperationException("Unit is not in battle.");
+
+            var slot = equipment.Def.Slot;
+
+            if (unit.Equipment.Has(slot))
+                throw new InvalidOperationException($"Slot {slot} is already occupied.");
+
+            if (equipment.Def.IsTwoHanded)
+            {
+                if (unit.Equipment.Has(EquipmentSlot.LeftHand))
+                    throw new InvalidOperationException("Left hand must be empty for two-handed weapon.");
+            }
+
+            if (slot == EquipmentSlot.LeftHand && unit.Equipment.Get(EquipmentSlot.RightHand)?.Def.IsTwoHanded == true)
+                throw new InvalidOperationException("Cannot equip left hand while wielding a two-handed weapon.");
+
+            unit.Equipment.Set(slot, equipment);
+        }
+
+        public Equipment? Unequip(Unit unit, EquipmentSlot slot)
+        {
+            if (!HasUnit(unit))
+                throw new InvalidOperationException("Unit is not in battle.");
+
+            return unit.Equipment.Remove(slot);
+        }
+
         public static void ApplyDamage(Unit unit, int amount)
         {
             var stats = unit.Stats;
