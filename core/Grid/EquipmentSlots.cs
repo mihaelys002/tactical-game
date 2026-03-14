@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace TacticalGame.Grid
@@ -45,27 +44,5 @@ namespace TacticalGame.Grid
             return _slots.Values.SelectMany(eq => eq.Def.GrantedSkills);
         }
 
-        public void WriteTo(BinaryWriter writer)
-        {
-            writer.Write(_slots.Count);
-            foreach (var (slot, equipment) in _slots)
-            {
-                writer.Write((int)slot);
-                equipment.WriteTo(writer);
-            }
-        }
-
-        public static EquipmentSlots ReadFrom(BinaryReader reader, EquipmentRegistry registry)
-        {
-            var slots = new EquipmentSlots();
-            int count = reader.ReadInt32();
-            for (int i = 0; i < count; i++)
-            {
-                var slot = (EquipmentSlot)reader.ReadInt32();
-                var equipment = Equipment.ReadFrom(reader, registry);
-                slots.Set(slot, equipment);
-            }
-            return slots;
-        }
     }
 }

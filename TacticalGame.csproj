@@ -12,6 +12,6 @@
     <Compile Include="src/**/*.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="core/TacticalGame.Core.csproj" />
+    <ProjectReference Include="init/TacticalGame.Init.csproj" />
   </ItemGroup>
 </Project>

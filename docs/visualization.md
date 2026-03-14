@@ -1,69 +1,31 @@
 # Visualization
 
-Model and visuals are fully separated. Game logic produces commands. Visualization consumes them.
-
-## Layers
+Model and visuals fully separated. Logic produces commands, viz consumes them.
 
 ```
-BattleManager.StepTurn()
-        |
-        v
-  List<IBattleCommand>
-        |
-        v
-  BattleOrchestrator         -- decides when to play each command
-        |
-        v
-  CommandVisual               -- choreographs one command's visuals
-   /         \
-MoveVisual   AttackVisual     -- each type owns its own sequence
-   |              |
-   v              v
-  UnitVisual    UnitVisual    -- Node2D per unit, draws itself
+BattleManager.StepTurn() → List<IBattleCommand>
+  → BattleOrchestrator → CommandVisual → UnitVisual
 ```
 
 ## UnitVisual
 
-Godot Node2D. One per unit. Draws circle + HP/armor bars at local origin.
-Exposes visual actions: `PlaySwing()`, `PlayHit()`, `PlayDeath()`, `AnimateMoveTo()`.
-All return `Task` — currently instant, replace with tweens/animations later.
-Knows nothing about game logic. Just displays what it's told.
+Node2D per unit. Circle + HP/armor bars + equipment icons.
+Exposes: `PlaySwing()`, `PlayHit()`, `PlayDeath()`, `AnimateMoveTo()` — all return Task.
+Currently instant, replace with tweens later. No structural changes needed.
 
 ## CommandVisual
 
-Abstract. Each subclass choreographs one command type.
+Abstract. Each subclass choreographs one cmd type.
+- **MoveVisual** — animates unit to target
+- **CompoundVisual** — swing, hit, death sequence
 
-**MoveVisual**: calls `unitVisual.AnimateMoveTo(target)`.
-
-**AttackVisual**: calls `attacker.PlaySwing()`, then `target.PlayHit()`, then `target.PlayDeath()` if dead.
-Owns the temporal dependency (swing before hit). UnitVisual doesn't know about other units.
-
-## CommandVisualFactory
-
-Single place that maps `IBattleCommand` -> `CommandVisual`. Only type discrimination in the system.
-
-```csharp
-cmd switch
-{
-    MoveCommand   => new MoveVisual(...),
-    AttackCommand => new AttackVisual(...),
-}
-```
-
-New command types: add a CommandVisual subclass and a case here.
+`CommandVisualFactory` maps `IBattleCommand` → `CommandVisual`.
 
 ## BattleOrchestrator
 
-Iterates commands, creates CommandVisual for each, awaits `Play()`.
-Also has `SyncAll()` — snaps all UnitVisuals to current state (used after undo).
+Iterates cmds, creates visuals, awaits `Play()`.
+`SyncAll()` snaps visuals to current state (used after undo).
 
 ## GridVisualizer
 
-Terrain only. Draws hex grid. Spawns UnitVisuals as children.
-`HexToPixel()` shared with orchestrator for coordinate conversion.
-
-## Adding animations later
-
-1. Replace `Task.CompletedTask` in UnitVisual with actual tweens
-2. CommandVisual sequences already await — animations will just take time
-3. No structural changes needed
+Draws hex grid terrain. `HexToPixel()` for coord conversion.

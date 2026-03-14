@@ -14,17 +14,21 @@ A turn-based tactical RPG inspired by **Battle Brothers**. Players command a mer
 tactical-game/
 ├── CLAUDE.md
 ├── project.godot
+├── TacticalGame.csproj          # Godot project (Godot.NET.Sdk 4.6.1)
+├── core/
+│   ├── TacticalGame.Core.csproj # Pure C# class library (.NET 9.0)
+│   ├── Grid/                    # Core model (pure C#, no Godot)
+│   └── AI/                      # Decision-making (reads state, never mutates)
 ├── src/
-│   ├── Grid/        # Core model (pure C#, no Godot)
-│   ├── AI/          # Decision-making (reads state, never mutates)
-│   └── Prototype/   # Godot visualization + orchestration
+│   └── Prototype/               # Godot visualization + orchestration
 └── docs/
 ```
 
 ## Docs Index
 | File | Contents |
 |---|---|
-| `docs/turn-loop.md` | Plan → execute → replan loop |
-| `docs/commands.md` | IBattleCommand, undo, damage calc |
+| `docs/turn-loop.md` | Plan → execute → replan loop, AIAction |
+| `docs/commands.md` | IBattleCommand, CompoundCommand, BattleEffect |
+| `docs/combat.md` | Pipeline, skills, traits, HitPattern, CombatCalcs |
+| `docs/state.md` | BattleState, HexCell, Unit, teams, mutations |
 | `docs/visualization.md` | UnitVisual, CommandVisual, orchestrator |
-| `docs/state.md` | BattleState, HexCell, dead units, teams |

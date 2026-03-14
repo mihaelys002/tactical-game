@@ -1,5 +1,3 @@
-using System.IO;
-
 namespace TacticalGame.Grid
 {
     public class UnitStats
@@ -50,28 +48,5 @@ namespace TacticalGame.Grid
                 morale);
         }
 
-        public void WriteTo(BinaryWriter writer)
-        {
-            writer.Write(Attack);
-            writer.Write(Defense);
-            writer.Write(Resolve);
-            writer.Write(MaxHP);
-            writer.Write(CurrentHP);
-            writer.Write(MaxArmor);
-            writer.Write(CurrentArmor);
-            writer.Write(MaxFatigue);
-            writer.Write(CurrentFatigue);
-            writer.Write(Morale);
-        }
-
-        public static UnitStats ReadFrom(BinaryReader reader)
-        {
-            return new UnitStats(
-                reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32(),
-                reader.ReadInt32(), reader.ReadInt32(),
-                reader.ReadInt32(), reader.ReadInt32(),
-                reader.ReadInt32(), reader.ReadInt32(),
-                reader.ReadInt32());
-        }
     }
 }

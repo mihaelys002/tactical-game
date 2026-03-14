@@ -1,0 +1,1 @@
+TacticalGame.HeadlessBattle.Run();

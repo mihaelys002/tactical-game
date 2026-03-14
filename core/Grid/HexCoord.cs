@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace TacticalGame.Grid
 {
@@ -47,21 +46,12 @@ namespace TacticalGame.Grid
             return (Math.Abs(d.Q) + Math.Abs(d.R) + Math.Abs(d.Q + d.R)) / 2;
         }
 
-        public void WriteTo(BinaryWriter writer)
-        {
-            writer.Write(Q);
-            writer.Write(R);
-        }
-
-        public static HexCoord ReadFrom(BinaryReader reader)
-        {
-            return new HexCoord(reader.ReadInt32(), reader.ReadInt32());
-        }
-
         public static HexCoord operator +(HexCoord a, HexCoord b) => new(a.Q + b.Q, a.R + b.R);
         public static HexCoord operator -(HexCoord a, HexCoord b) => new(a.Q - b.Q, a.R - b.R);
         public static HexCoord operator *(HexCoord a, int scalar) => new(a.Q * scalar, a.R * scalar);
         public static HexCoord operator *(int scalar, HexCoord a) => new(a.Q * scalar, a.R * scalar);
+
+        public static int operator *(HexCoord a, HexCoord b) => a.Q * b.Q + a.R * b.R + a.S * b.S;
 
         public bool Equals(HexCoord other) => Q == other.Q && R == other.R;
         public override bool Equals(object? obj) => obj is HexCoord other && Equals(other);

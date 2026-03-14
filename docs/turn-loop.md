@@ -1,36 +1,36 @@
 # Turn Loop
 
-Core loop lives in `BattleManager.StepTurn()`.
+`BattleManager.StepTurn()`:
 
 ```
+recover fatigue for all alive units
 pending = all alive units
 
-while pending not empty:
-    planned = PlanAll(pending)      // read-only, parallelizable
-    pending = ExecuteAll(planned)   // sequential, immediate effects
+while pending not empty (max 50):
+    actions = PlanAll(pending)     // parallel-safe, read-only
+    pending = ExecuteAll(actions)  // sequential
 ```
 
 ## Planning
 
-`PlanAction` delegate — swappable. Default uses `AIBrain`.
-Planning only reads state. Never mutates. Safe for `Parallel.For`.
+`PlanAction` delegate, default uses `AIBrain`.
+Returns `AIAction?` per unit. Planning never mutates state.
 
-Enemy cache built once per loop iteration, not per unit.
+## AIAction
+
+Abstract. Carries `Unit, Target, Score`. Subclasses:
+- **MoveAction** — creates MoveCommand
+- **SkillAction** — has `Skill, Weapon`, creates CompoundCommand via CombatPipeline
+
+`CreateCommand(battle)` always returns a cmd. Validation is cmd's job.
 
 ## Execution
 
-Sequential. Each action validated then executed immediately.
-
-- **Move**: blocked if cell occupied, unwalkable, or already claimed this loop. Failed units replan.
-- **Attack**: invalid if target dead. Failed units replan.
-
-Valid actions become `IBattleCommand`, executed in-place, appended to command list.
-
-## Replanning
-
-Failed units go back to `pending`. Loop repeats.
-Safety limit (50) prevents infinite loops.
+Sequential. For each action:
+1. `action.CreateCommand(battle)` → cmd
+2. `cmd.Execute(battle)` → bool
+3. false → unit goes to failed list for replan
 
 ## Output
 
-`StepTurn()` returns `List<IBattleCommand>` — the ordered sequence of everything that happened. Stored in `_turnHistory` for undo.
+Returns `List<IBattleCommand>` — everything that happened. Stored for undo.

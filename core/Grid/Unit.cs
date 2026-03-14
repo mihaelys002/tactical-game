@@ -1,12 +1,14 @@
-using System.IO;
+using System.Collections.Generic;
 
 namespace TacticalGame.Grid
 {
     public class Unit
     {
+        public string Name { get; set; } = "";
         public HexCoord Position { get; internal set; }
         public UnitStats Stats { get; }
         public EquipmentSlots Equipment { get; }
+        public List<ITrait> Traits { get; } = new();
         public bool IsAlive => Stats.CurrentHP > 0;
 
         public int EffectiveAttack => Stats.Attack + Equipment.TotalBonus().Attack;
@@ -19,27 +21,12 @@ namespace TacticalGame.Grid
             Equipment = new EquipmentSlots();
         }
 
-        public void WriteTo(BinaryWriter writer)
-        {
-            Position.WriteTo(writer);
-            Stats.WriteTo(writer);
-            Equipment.WriteTo(writer);
-        }
-
-        public static Unit ReadFrom(BinaryReader reader, EquipmentRegistry registry)
-        {
-            var position = HexCoord.ReadFrom(reader);
-            var stats = UnitStats.ReadFrom(reader);
-            var equipment = EquipmentSlots.ReadFrom(reader, registry);
-            var unit = new Unit(stats, equipment);
-            unit.Position = position;
-            return unit;
-        }
-
         internal Unit(UnitStats stats, EquipmentSlots equipment)
         {
             Stats = stats;
             Equipment = equipment;
         }
+
+        public override string ToString() => string.IsNullOrEmpty(Name) ? "Unit" : Name;
     }
 }
