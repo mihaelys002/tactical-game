@@ -12,7 +12,6 @@ namespace TacticalGame.Grid
         public int Elevation { get; }
         public IReadOnlyList<Unit> Occupants => _occupants;
         public bool IsWalkable => !_occupants.Any(u => u.IsAlive);
-        public Loot? Loot { get; internal set; }
 
         internal void AddOccupant(Unit unit) => _occupants.Add(unit);
         internal void RemoveOccupant(Unit unit) => _occupants.Remove(unit);

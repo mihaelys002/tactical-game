@@ -1,17 +1,14 @@
-<Project Sdk="Godot.NET.Sdk/4.6.1">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
-    <EnableDynamicLoading>true</EnableDynamicLoading>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <Nullable>enable</Nullable>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RootNamespace>TacticalGame</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="src/**/*.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="init/TacticalGame.Init.csproj" />
+    <ProjectReference Include="..\core\TacticalGame.Core.csproj" />
   </ItemGroup>
 </Project>

@@ -27,24 +27,53 @@ namespace TacticalGame.Prototype
         }
     }
 
-    public class AttackVisual : CommandVisual
+    public class CompoundVisual : CommandVisual
     {
-        private readonly UnitVisual _attackerVisual;
-        private readonly UnitVisual _targetVisual;
+        private readonly UnitVisual _userVisual;
+        private readonly List<(UnitVisual visual, BattleEffect effect)> _targetEffects;
+        private readonly bool _hasDamage;
 
-        public AttackVisual(AttackCommand cmd, UnitVisual attackerVisual, UnitVisual targetVisual)
+        public CompoundVisual(CompoundCommand cmd, Dictionary<Unit, UnitVisual> visuals)
         {
-            _attackerVisual = attackerVisual;
-            _targetVisual = targetVisual;
+            _userVisual = visuals[cmd.Unit];
+            _targetEffects = new List<(UnitVisual, BattleEffect)>();
+
+            foreach (var effect in cmd.Effects)
+            {
+                if (effect is DamageEffect dmg && visuals.TryGetValue(dmg.Target, out var dv))
+                {
+                    _targetEffects.Add((dv, effect));
+                    _hasDamage = true;
+                }
+                else if (effect is HealEffect heal && visuals.TryGetValue(heal.Target, out var hv))
+                {
+                    _targetEffects.Add((hv, effect));
+                }
+            }
         }
 
         public override async Task Play()
         {
-            await _attackerVisual.PlaySwing();
-            await _targetVisual.PlayHit();
+            if (_hasDamage)
+                await _userVisual.PlaySwing();
 
-            if (!_targetVisual.Unit.IsAlive)
-                await _targetVisual.PlayDeath();
+            foreach (var (visual, effect) in _targetEffects)
+            {
+                if (effect is DamageEffect)
+                {
+                    await visual.PlayHit();
+                    if (!visual.Unit.IsAlive)
+                        await visual.PlayDeath();
+                }
+                else if (effect is HealEffect)
+                {
+                    visual.QueueRedraw();
+                }
+            }
+
+            // Self-targeting skills (like ShieldWall) — just redraw the user
+            if (!_hasDamage)
+                _userVisual.QueueRedraw();
         }
     }
 
@@ -58,7 +87,7 @@ namespace TacticalGame.Prototype
             return cmd switch
             {
                 MoveCommand move => new MoveVisual(move, visuals[move.Unit], hexToPixel),
-                AttackCommand attack => new AttackVisual(attack, visuals[attack.Unit], visuals[attack.Target]),
+                CompoundCommand compound => new CompoundVisual(compound, visuals),
                 _ => throw new ArgumentException($"Unknown command type: {cmd.GetType()}")
             };
         }

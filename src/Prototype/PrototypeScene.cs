@@ -18,7 +18,7 @@ namespace TacticalGame.Prototype
 
         public override void _Ready()
         {
-            _manager = new BattleManager();
+            _manager = CreateBattleManager();
 
             _visualizer = new GridVisualizer();
             AddChild(_visualizer);
@@ -75,7 +75,7 @@ namespace TacticalGame.Prototype
                 {
                     _autoPlay = false;
                     _playing = false;
-                    _manager = new BattleManager();
+                    _manager = CreateBattleManager();
                     SubscribeLog(_manager);
                     _visualizer.SetState(_manager);
                     _orchestrator = new BattleOrchestrator(
@@ -145,6 +145,12 @@ namespace TacticalGame.Prototype
         private void AppendLog(string msg)
         {
             _logText += msg + "\n";
+        }
+
+        private static BattleManager CreateBattleManager()
+        {
+            var setup = BattleSetup.CreatePrototype();
+            return new BattleManager(setup.Battle);
         }
     }
 }

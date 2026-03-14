@@ -27,7 +27,8 @@ tactical-game/
 ## Docs Index
 | File | Contents |
 |---|---|
-| `docs/turn-loop.md` | Plan → execute → replan loop |
-| `docs/commands.md` | IBattleCommand, undo, damage calc |
+| `docs/turn-loop.md` | Plan → execute → replan loop, AIAction |
+| `docs/commands.md` | IBattleCommand, CompoundCommand, BattleEffect |
+| `docs/combat.md` | Pipeline, skills, traits, HitPattern, CombatCalcs |
+| `docs/state.md` | BattleState, HexCell, Unit, teams, mutations |
 | `docs/visualization.md` | UnitVisual, CommandVisual, orchestrator |
-| `docs/state.md` | BattleState, HexCell, dead units, teams |

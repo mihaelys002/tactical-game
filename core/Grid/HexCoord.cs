@@ -51,6 +51,8 @@ namespace TacticalGame.Grid
         public static HexCoord operator *(HexCoord a, int scalar) => new(a.Q * scalar, a.R * scalar);
         public static HexCoord operator *(int scalar, HexCoord a) => new(a.Q * scalar, a.R * scalar);
 
+        public static int operator *(HexCoord a, HexCoord b) => a.Q * b.Q + a.R * b.R + a.S * b.S;
+
         public bool Equals(HexCoord other) => Q == other.Q && R == other.R;
         public override bool Equals(object? obj) => obj is HexCoord other && Equals(other);
         public override int GetHashCode() => HashCode.Combine(Q, R);

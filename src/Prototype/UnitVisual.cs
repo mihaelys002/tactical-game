@@ -87,6 +87,29 @@ namespace TacticalGame.Prototype
             var hpPos = armorPos + new Vector2(0, barHeight + 1);
             DrawRect(new Rect2(hpPos, new Vector2(barWidth, barHeight)), new Color(0.3f, 0.0f, 0.0f));
             DrawRect(new Rect2(hpPos, new Vector2(barWidth * hpRatio, barHeight)), new Color(0.0f, 0.8f, 0.0f));
+
+            // Equipment icons — small letters around the unit circle
+            float iconRadius = _hexSize * 0.55f;
+            var font = ThemeDB.FallbackFont;
+            int fontSize = (int)(_hexSize * 0.28f);
+            var iconColor = new Color(1f, 1f, 1f, 0.9f);
+
+            foreach (var eq in _unit.Equipment.All)
+            {
+                float angle = eq.Def.Slot switch
+                {
+                    EquipmentSlot.RightHand => 0f,
+                    EquipmentSlot.LeftHand => MathF.PI,
+                    EquipmentSlot.Helmet => -MathF.PI / 2f,
+                    EquipmentSlot.Torso => MathF.PI / 2f,
+                    EquipmentSlot.Amulet => -MathF.PI / 4f,
+                    _ => 0f
+                };
+
+                string label = eq.Def.Name.Length > 0 ? eq.Def.Name[..1] : "?";
+                var pos = new Vector2(MathF.Cos(angle), MathF.Sin(angle)) * iconRadius;
+                DrawString(font, pos - new Vector2(fontSize * 0.3f, -fontSize * 0.3f), label, HorizontalAlignment.Left, -1, fontSize, iconColor);
+            }
         }
     }
 }

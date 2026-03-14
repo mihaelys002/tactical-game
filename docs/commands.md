@@ -1,42 +1,36 @@
 # Commands
 
-All state mutations go through `IBattleCommand`. Every command has `Execute` and `Undo`.
+## IBattleCommand
 
-## Interface
-
-```csharp
-public interface IBattleCommand
-{
-    Unit Unit { get; }
-    void Execute(BattleState battle);
-    void Undo(BattleState battle);
-}
 ```
+Unit, Execute(battle) → bool, Undo(battle)
+```
+
+Execute returns false if cmd cant run (blocked move, no essential effects).
+Undo reverses in exact order using stored deltas.
 
 ## MoveCommand
 
-Stores `Unit`, `From`, `To`. Execute moves forward. Undo moves back.
+`Unit, From, To`. Execute checks `cell.IsWalkable`, returns false if blocked.
 
-## AttackCommand
+## CompoundCommand (sealed)
 
-Stores attacker, target, total damage. On Execute, computes armor/HP split and applies.
-Undo adds back exact amounts. No clamping — HP goes negative on death, positive on undo.
+Wraps `List<BattleEffect>`. Has `Unit, Weapon, Skill, TargetHex`.
+Execute only runs if at least 1 essential effect exists.
+Undo reverses effects in reverse order.
 
-Key decisions:
-- Dead units stay in state. Never removed.
-- HP not clamped to 0. Enables pure arithmetic undo.
-- `Unit.IsAlive` = `CurrentHP > 0`. That's the only death check.
+## BattleEffect
+
+Base class. `Target, IsEssential, Apply(battle), Reverse(battle)`.
+Skills set `IsEssential` on effects they create — its not intrinsic to effect type.
+
+Types:
+- **DamageEffect** — `Source, Amount(mutable), AppliedArmorDamage, AppliedHpDamage`. Uses `SplitDamage` then `ChangeArmor/ChangeHP`
+- **HealEffect** — `Amount, AppliedHeal`. Uses `ChangeHP`
+- **FatigueEffect** — `Amount, AppliedFatigue`. Uses `ChangeFatigue`
+- **MoraleEffect** — `Delta, AppliedDelta`. Uses `ChangeMorale`
 
 ## Undo
 
-`BattleManager.UndoLastTurn()` pops last turn's command list, undoes all in reverse order.
-Reverse order guarantees state consistency (a unit moved to cell X is moved back before another unit moves into X).
-
-## Why commands own damage calc
-
-`AttackCommand.Execute` does the armor/HP split itself (not `BattleState.ApplyDamage`).
-It records `ArmorDamage` and `HpDamage` so Undo can reverse exactly what happened.
-
-## Future
-
-Commands will be weapon-driven. Axe has its own command types, spear has different ones.
+`BattleManager.UndoLastTurn()` pops last turn, undoes all cmds in reverse.
+Each effect stores exact applied delta for clean reversal.

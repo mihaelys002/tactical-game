@@ -2,31 +2,53 @@ using TacticalGame.Grid;
 
 namespace TacticalGame.AI
 {
-    public enum AIActionType
+    public abstract class AIAction
     {
-        Move,
-        Attack
-    }
-
-    public class AIAction
-    {
-        public AIActionType Type { get; }
+        public Unit Unit { get; }
         public HexCoord Target { get; }
-        public Unit? TargetUnit { get; }
         public float Score { get; }
 
-        private AIAction(AIActionType type, HexCoord target, Unit? targetUnit, float score)
+        protected AIAction(Unit unit, HexCoord target, float score)
         {
-            Type = type;
+            Unit = unit;
             Target = target;
-            TargetUnit = targetUnit;
             Score = score;
         }
 
-        public static AIAction Move(HexCoord target, float score)
-            => new(AIActionType.Move, target, null, score);
+        public abstract IBattleCommand CreateCommand(BattleState battle);
 
-        public static AIAction Attack(Unit target, float score)
-            => new(AIActionType.Attack, target.Position, target, score);
+        public static MoveAction Move(Unit unit, HexCoord target, float score)
+            => new(unit, target, score);
+
+        public static SkillAction UseSkill(Unit unit, HexCoord targetHex, SkillDef skill, EquipmentDef weapon, float score)
+            => new(unit, targetHex, skill, weapon, score);
+    }
+
+    public class MoveAction : AIAction
+    {
+        public MoveAction(Unit unit, HexCoord target, float score) : base(unit, target, score) { }
+
+        public override IBattleCommand CreateCommand(BattleState battle)
+        {
+            return new MoveCommand(Unit, Unit.Position, Target);
+        }
+    }
+
+    public class SkillAction : AIAction
+    {
+        public SkillDef Skill { get; }
+        public EquipmentDef Weapon { get; }
+
+        public SkillAction(Unit unit, HexCoord targetHex, SkillDef skill, EquipmentDef weapon, float score)
+            : base(unit, targetHex, score)
+        {
+            Skill = skill;
+            Weapon = weapon;
+        }
+
+        public override IBattleCommand CreateCommand(BattleState battle)
+        {
+            return CombatPipeline.Resolve(Unit, Weapon, Skill, Target, battle);
+        }
     }
 }

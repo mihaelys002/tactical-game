@@ -9,11 +9,11 @@ namespace TacticalGame.AI
         public IReadOnlyList<Unit> Friends { get; }
         public IReadOnlyList<Unit> Enemies { get; }
 
-        public AIBlackboard(BattleState battle, IReadOnlyList<Unit> friends, IReadOnlyList<Unit> enemies)
+        public AIBlackboard(BattleState battle, Unit unit)
         {
             Battle = battle;
-            Friends = friends;
-            Enemies = enemies;
+            Friends = battle.GetAllies(unit);
+            Enemies = battle.GetEnemies(unit);
         }
     }
 }

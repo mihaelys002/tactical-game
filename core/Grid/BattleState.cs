@@ -1,26 +1,67 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TacticalGame.Grid
 {
+    [SuppressMessage("Performance", "CA1822", Justification = "Instance methods by design — BattleState is the mutation gateway")]
     public class BattleState
     {
         private readonly HexGrid _grid;
         private readonly List<Unit> _units = new();
         private readonly HashSet<Unit> _unitSet = new();
-        private readonly List<Loot> _loot = new();
-        private readonly HashSet<Loot> _lootSet = new();
+        private readonly List<List<Unit>> _teams = new();
+        private readonly Dictionary<Unit, int> _unitTeam = new();
 
         public HexGrid Grid => _grid;
         public IReadOnlyList<Unit> Units => _units;
-        public IReadOnlyList<Loot> Loot => _loot;
-
         public bool HasUnit(Unit unit) => _unitSet.Contains(unit);
-        public bool HasLoot(Loot loot) => _lootSet.Contains(loot);
+        public IReadOnlyList<List<Unit>> Teams => _teams;
+        public int TeamCount => _teams.Count;
 
         public BattleState(HexGrid grid)
         {
             _grid = grid;
+        }
+
+        public int RegisterTeam(List<Unit> units)
+        {
+            int teamIndex = _teams.Count;
+            _teams.Add(units);
+            foreach (var unit in units)
+                _unitTeam[unit] = teamIndex;
+            return teamIndex;
+        }
+
+        public int GetTeamIndex(Unit unit)
+        {
+            return _unitTeam.TryGetValue(unit, out int idx) ? idx : -1;
+        }
+
+        public List<Unit> GetAllies(Unit unit)
+        {
+            if (!_unitTeam.TryGetValue(unit, out int team))
+                return new List<Unit>();
+
+            var allies = new List<Unit>();
+            foreach (var u in _teams[team])
+                if (u != unit && u.IsAlive) allies.Add(u);
+            return allies;
+        }
+
+        public List<Unit> GetEnemies(Unit unit)
+        {
+            if (!_unitTeam.TryGetValue(unit, out int team))
+                return new List<Unit>();
+
+            var enemies = new List<Unit>();
+            for (int t = 0; t < _teams.Count; t++)
+            {
+                if (t == team) continue;
+                foreach (var u in _teams[t])
+                    if (u.IsAlive) enemies.Add(u);
+            }
+            return enemies;
         }
 
         public void PlaceUnit(Unit unit, HexCoord coord)
@@ -57,59 +98,66 @@ namespace TacticalGame.Grid
             _unitSet.Remove(unit);
         }
 
-        public void PlaceLoot(Loot loot, HexCoord coord)
+        public void Equip(Unit unit, Equipment equipment)
         {
-            var cell = GetCellOrThrow(coord);
+            if (!HasUnit(unit))
+                throw new InvalidOperationException("Unit is not in battle.");
 
-            if (cell.Loot != null)
-                throw new InvalidOperationException($"Cell {coord} already has loot.");
+            var slot = equipment.Def.Slot;
 
-            cell.Loot = loot;
-            loot.Position = coord;
-            _loot.Add(loot);
-            _lootSet.Add(loot);
-        }
+            if (unit.Equipment.Has(slot))
+                throw new InvalidOperationException($"Slot {slot} is already occupied.");
 
-        public void RemoveLoot(Loot loot)
-        {
-            var cell = GetCellOrThrow(loot.Position);
-            cell.Loot = null;
-            _loot.Remove(loot);
-            _lootSet.Remove(loot);
-        }
-
-        public static void ApplyDamage(Unit unit, int amount)
-        {
-            var stats = unit.Stats;
-            int remaining = amount;
-
-            if (stats.CurrentArmor > 0)
+            if (equipment.Def.IsTwoHanded)
             {
-                int absorbed = Math.Min(stats.CurrentArmor, remaining);
-                stats.CurrentArmor -= absorbed;
-                remaining -= absorbed;
+                if (unit.Equipment.Has(EquipmentSlot.LeftHand))
+                    throw new InvalidOperationException("Left hand must be empty for two-handed weapon.");
             }
 
-            if (remaining > 0)
-                stats.CurrentHP -= remaining;
+            if (slot == EquipmentSlot.LeftHand && unit.Equipment.Get(EquipmentSlot.RightHand)?.Def.IsTwoHanded == true)
+                throw new InvalidOperationException("Cannot equip left hand while wielding a two-handed weapon.");
+
+            unit.Equipment.Set(slot, equipment);
         }
 
-        public static void ApplyFatigue(Unit unit, int amount)
+        public Equipment? Unequip(Unit unit, EquipmentSlot slot)
         {
-            var stats = unit.Stats;
-            stats.CurrentFatigue = Math.Min(stats.MaxFatigue, stats.CurrentFatigue + amount);
+            if (!HasUnit(unit))
+                throw new InvalidOperationException("Unit is not in battle.");
+
+            return unit.Equipment.Remove(slot);
         }
 
-        public static void RecoverFatigue(Unit unit, int amount)
+        public int ChangeHP(Unit unit, int delta)
         {
             var stats = unit.Stats;
-            stats.CurrentFatigue = Math.Max(0, stats.CurrentFatigue - amount);
+            int old = stats.CurrentHP;
+            stats.CurrentHP = Math.Clamp(old + delta, 0, stats.MaxHP);
+            return stats.CurrentHP - old;
         }
 
-        public static void ChangeMorale(Unit unit, int delta)
+        public int ChangeArmor(Unit unit, int delta)
         {
             var stats = unit.Stats;
-            stats.Morale = Math.Clamp(stats.Morale + delta, 0, 100);
+            int old = stats.CurrentArmor;
+            stats.CurrentArmor = Math.Clamp(old + delta, 0, stats.MaxArmor);
+            return stats.CurrentArmor - old;
+        }
+
+        public int ChangeFatigue(Unit unit, int delta)
+        {
+            var stats = unit.Stats;
+            int old = stats.CurrentFatigue;
+            stats.CurrentFatigue = Math.Clamp(old + delta, 0, stats.MaxFatigue);
+            return stats.CurrentFatigue - old;
+        }
+
+        public int ChangeMorale(Unit unit, int delta)
+        {
+            var stats = unit.Stats;
+            int old = stats.Morale;
+            stats.Morale = Math.Clamp(old + delta, 0, 100);
+            return stats.Morale - old;
         }
 
         private HexCell GetCellOrThrow(HexCoord coord)

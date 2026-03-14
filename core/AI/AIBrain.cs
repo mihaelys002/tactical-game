@@ -9,7 +9,7 @@ namespace TacticalGame.AI
         {
             var candidates = new List<AIAction>();
 
-            ScoreAttacks(unit, blackboard, candidates);
+            ScoreSkills(unit, blackboard, candidates);
             ScoreMoves(unit, blackboard, candidates);
 
             AIAction? best = null;
@@ -22,20 +22,45 @@ namespace TacticalGame.AI
             return best;
         }
 
-        private static void ScoreAttacks(Unit unit, AIBlackboard blackboard, List<AIAction> candidates)
+        private static void ScoreSkills(Unit unit, AIBlackboard blackboard, List<AIAction> candidates)
         {
+            // Self-cast skills (range 0) — score once, independent of enemies
+            foreach (var equipment in unit.Equipment.All)
+            {
+                foreach (var skill in equipment.Def.GrantedSkills)
+                {
+                    if (skill.Range != 0) continue;
+                    if (unit.Stats.CurrentFatigue + skill.FatigueCost > unit.Stats.MaxFatigue) continue;
+                    if (!skill.HasValidUse(unit, blackboard.Battle)) continue;
+
+                    float score = 20f;
+                    float hpRatio = (float)unit.Stats.CurrentHP / unit.Stats.MaxHP;
+                    score += 80f * (1f - hpRatio);
+
+                    candidates.Add(AIAction.UseSkill(unit, unit.Position, skill, equipment.Def, score));
+                }
+            }
+
+            // Targeted skills — score per enemy
             foreach (var enemy in blackboard.Enemies)
             {
                 int distance = unit.Position.DistanceTo(enemy.Position);
 
-                if (distance != 1)
-                    continue;
+                foreach (var equipment in unit.Equipment.All)
+                {
+                    foreach (var skill in equipment.Def.GrantedSkills)
+                    {
+                        if (skill.Range == 0) continue;
+                        if (distance > skill.Range) continue;
+                        if (unit.Stats.CurrentFatigue + skill.FatigueCost > unit.Stats.MaxFatigue) continue;
 
-                // Prefer low HP targets
-                float hpRatio = (float)enemy.Stats.CurrentHP / enemy.Stats.MaxHP;
-                float score = 100f * (1f - hpRatio) + 50f;
+                        int power = skill.EstimatePower(unit, equipment.Def);
+                        float hpRatio = (float)enemy.Stats.CurrentHP / enemy.Stats.MaxHP;
+                        float score = power + 100f * (1f - hpRatio);
 
-                candidates.Add(AIAction.Attack(enemy, score));
+                        candidates.Add(AIAction.UseSkill(unit, enemy.Position, skill, equipment.Def, score));
+                    }
+                }
             }
         }
 
@@ -55,11 +80,9 @@ namespace TacticalGame.AI
                     continue;
 
                 int newDistance = neighbor.Coord.DistanceTo(closestEnemy.Position);
-
-                // Prefer cells that close the gap
                 float score = (currentDistance - newDistance) * 30f;
 
-                candidates.Add(AIAction.Move(neighbor.Coord, score));
+                candidates.Add(AIAction.Move(unit, neighbor.Coord, score));
             }
         }
 

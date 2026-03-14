@@ -1,26 +1,28 @@
-# Battle State
+# State
 
 ## BattleState
 
-Single gateway for all mutations. Owns grid, unit list, loot list.
+Mutation gateway. All state changes go thru instance methods.
 
-Key methods: `PlaceUnit`, `MoveUnit`, `RemoveUnit`, `ApplyDamage`.
+Owns: grid, units, teams.
 
-`ApplyDamage` splits damage between armor and HP. No clamping, no death removal.
-Commands call these methods (or do their own math for undo support).
+Mutations:
+- `PlaceUnit`, `MoveUnit`, `RemoveUnit`
+- `Equip`, `Unequip`
+- `ChangeHP(unit, delta)` → actual delta
+- `ChangeArmor`, `ChangeFatigue`, `ChangeMorale` — same pattern
+
+Team tracking:
+- `RegisterTeam(List<Unit>)` → team index
+- `GetTeamIndex(unit)`, `GetAllies(unit)`, `GetEnemies(unit)`
 
 ## HexCell
 
-Holds list of occupants (not single occupant). Multiple units can share a cell (living + corpses).
-
-`IsWalkable` — true if no alive unit on the cell. Consumers check this, never inspect occupant list directly.
+Occupants list (living + corpses). 1 alive unit per cell max.
+`IsWalkable` = no alive occupant. Only public check for occupancy.
 
 ## Unit
 
-`IsAlive` = `CurrentHP > 0`. Dead units stay in state with negative HP.
-Never removed from BattleState on death. Enables clean undo.
-
-## Teams
-
-`BattleManager` owns team lists and `Dictionary<Unit, int>` for O(1) team lookup.
-Enemy cache built per planning loop iteration: all alive units from other teams.
+`IsAlive` = `CurrentHP > 0`. Dead units stay in state, never removed. Enables undo.
+`Effective*` props = base stats + equipment `TotalBonus()`.
+`Traits` = `List<ITrait>` for pipeline modification.
