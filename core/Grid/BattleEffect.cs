@@ -21,10 +21,13 @@ namespace TacticalGame.Grid
         public int AppliedArmorDamage { get; private set; }
         public int AppliedHpDamage { get; private set; }
 
-        public DamageEffect(Unit source, Unit target, int amount) : base(target)
+        public DamageEffect(Unit source, Unit target, int amount,
+            int appliedArmorDamage = 0, int appliedHpDamage = 0) : base(target)
         {
             Source = source;
             Amount = amount;
+            AppliedArmorDamage = appliedArmorDamage;
+            AppliedHpDamage = appliedHpDamage;
         }
 
         public override void Apply(BattleState battle)
@@ -52,9 +55,10 @@ namespace TacticalGame.Grid
         public int Amount { get; set; }
         public int AppliedHeal { get; private set; }
 
-        public HealEffect(Unit target, int amount) : base(target)
+        public HealEffect(Unit target, int amount, int appliedHeal = 0) : base(target)
         {
             Amount = amount;
+            AppliedHeal = appliedHeal;
         }
 
         public override void Apply(BattleState battle)
@@ -78,9 +82,10 @@ namespace TacticalGame.Grid
         public int Amount { get; set; }
         public int AppliedFatigue { get; private set; }
 
-        public FatigueEffect(Unit target, int amount) : base(target)
+        public FatigueEffect(Unit target, int amount, int appliedFatigue = 0) : base(target)
         {
             Amount = amount;
+            AppliedFatigue = appliedFatigue;
         }
 
         public override void Apply(BattleState battle)
@@ -104,9 +109,10 @@ namespace TacticalGame.Grid
         public int Delta { get; set; }
         public int AppliedDelta { get; private set; }
 
-        public MoraleEffect(Unit target, int delta) : base(target)
+        public MoraleEffect(Unit target, int delta, int appliedDelta = 0) : base(target)
         {
             Delta = delta;
+            AppliedDelta = appliedDelta;
         }
 
         public override void Apply(BattleState battle)

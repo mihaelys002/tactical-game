@@ -1,21 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json;
 
 namespace TacticalGame.Grid
 {
     [SuppressMessage("Performance", "CA1822", Justification = "Instance methods by design — BattleState is the mutation gateway")]
+    [JsonObject(MemberSerialization.Fields)]
     public class BattleState
     {
         private readonly HexGrid _grid;
         private readonly List<Unit> _units = new();
-        private readonly HashSet<Unit> _unitSet = new();
         private readonly List<List<Unit>> _teams = new();
-        private readonly Dictionary<Unit, int> _unitTeam = new();
-
         public HexGrid Grid => _grid;
         public IReadOnlyList<Unit> Units => _units;
-        public bool HasUnit(Unit unit) => _unitSet.Contains(unit);
+        public bool HasUnit(Unit unit) => _units.Contains(unit);
         public IReadOnlyList<List<Unit>> Teams => _teams;
         public int TeamCount => _teams.Count;
 
@@ -29,19 +28,14 @@ namespace TacticalGame.Grid
             int teamIndex = _teams.Count;
             _teams.Add(units);
             foreach (var unit in units)
-                _unitTeam[unit] = teamIndex;
+                unit.TeamIndex = teamIndex;
             return teamIndex;
-        }
-
-        public int GetTeamIndex(Unit unit)
-        {
-            return _unitTeam.TryGetValue(unit, out int idx) ? idx : -1;
         }
 
         public List<Unit> GetAllies(Unit unit)
         {
-            if (!_unitTeam.TryGetValue(unit, out int team))
-                return new List<Unit>();
+            int team = unit.TeamIndex;
+            if (team < 0) return new List<Unit>();
 
             var allies = new List<Unit>();
             foreach (var u in _teams[team])
@@ -51,8 +45,8 @@ namespace TacticalGame.Grid
 
         public List<Unit> GetEnemies(Unit unit)
         {
-            if (!_unitTeam.TryGetValue(unit, out int team))
-                return new List<Unit>();
+            int team = unit.TeamIndex;
+            if (team < 0) return new List<Unit>();
 
             var enemies = new List<Unit>();
             for (int t = 0; t < _teams.Count; t++)
@@ -74,7 +68,6 @@ namespace TacticalGame.Grid
             cell.AddOccupant(unit);
             unit.Position = coord;
             _units.Add(unit);
-            _unitSet.Add(unit);
         }
 
         public void MoveUnit(Unit unit, HexCoord target)
@@ -95,7 +88,6 @@ namespace TacticalGame.Grid
             var cell = GetCellOrThrow(unit.Position);
             cell.RemoveOccupant(unit);
             _units.Remove(unit);
-            _unitSet.Remove(unit);
         }
 
         public void Equip(Unit unit, Equipment equipment)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using TacticalGame.AI;
 using TacticalGame.Grid;
 
@@ -13,6 +14,7 @@ namespace TacticalGame
         private readonly BattleState _battle;
         private readonly PlanAction _planner;
         private readonly List<List<IBattleCommand>> _turnHistory = new();
+        [JsonProperty]
         private int _turnNumber;
         private bool _useThreads;
 
@@ -133,8 +135,6 @@ namespace TacticalGame
         }
 
         // ─── Queries ──────────────────────────────────────────────────────
-
-        public int GetTeamIndex(Unit unit) => _battle.GetTeamIndex(unit);
 
         public bool IsBattleOver()
         {

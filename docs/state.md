@@ -14,7 +14,8 @@ Mutations:
 
 Team tracking:
 - `RegisterTeam(List<Unit>)` → team index
-- `GetTeamIndex(unit)`, `GetAllies(unit)`, `GetEnemies(unit)`
+- `Unit.TeamIndex` — set by `RegisterTeam`, read directly
+- `GetAllies(unit)`, `GetEnemies(unit)`
 
 ## HexCell
 

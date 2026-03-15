@@ -6,6 +6,7 @@ namespace TacticalGame.Grid
     {
         public string Name { get; set; } = "";
         public HexCoord Position { get; internal set; }
+        public int TeamIndex { get; internal set; } = -1;
         public UnitStats Stats { get; }
         public EquipmentSlots Equipment { get; }
         public List<ITrait> Traits { get; } = new();
