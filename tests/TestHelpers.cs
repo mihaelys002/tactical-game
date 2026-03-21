@@ -34,7 +34,10 @@ namespace TacticalGame.Tests
                 int r1 = Math.Max(-radius, -q - radius);
                 int r2 = Math.Min(radius, -q + radius);
                 for (int r = r1; r <= r2; r++)
-                    grid.AddCell(new HexCoord(q, r), TerrainType.Plain, 0);
+                {
+                    var coord = new HexCoord(q, r);
+                    grid.Cells[coord] = new HexCell(coord, TerrainType.Plain, 0);
+                }
             }
             return grid;
         }
@@ -57,8 +60,8 @@ namespace TacticalGame.Tests
 
             battle.PlaceUnit(attacker, HexCoord.Zero);
             battle.PlaceUnit(defender, new HexCoord(1, 0));
-            battle.RegisterTeam(new List<Unit> { attacker });
-            battle.RegisterTeam(new List<Unit> { defender });
+            battle.RegisterTeam(0, new List<Unit> { attacker });
+            battle.RegisterTeam(1, new List<Unit> { defender });
 
             attackerWeapon ??= SampleWeapons.Axe;
             battle.Equip(attacker, new Equipment(attackerWeapon));
@@ -89,6 +92,15 @@ namespace TacticalGame.Tests
 
             public static readonly EquipmentDef TwoHandedAxe = new("greataxe", "Greataxe", EquipmentSlot.RightHand,
                 14, new StatBonus(attack: 18), new[] { Chop }, isTwoHanded: true);
+
+            static SampleWeapons()
+            {
+                DefRegistry.Register(Axe);
+                DefRegistry.Register(Sword);
+                DefRegistry.Register(Shield);
+                DefRegistry.Register(Helmet);
+                DefRegistry.Register(TwoHandedAxe);
+            }
         }
     }
 }

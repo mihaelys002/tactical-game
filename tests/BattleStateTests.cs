@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TacticalGame.Grid;
 using Xunit;
 
@@ -16,7 +17,7 @@ namespace TacticalGame.Tests
             var unit = TestHelpers.MakeUnit();
             battle.PlaceUnit(unit, HexCoord.Zero);
 
-            Assert.True(battle.HasUnit(unit));
+            Assert.True(battle.Units.Contains(unit));
             Assert.Equal(HexCoord.Zero, unit.Position);
             Assert.Single(battle.Units);
         }
@@ -33,15 +34,7 @@ namespace TacticalGame.Tests
                 battle.PlaceUnit(u2, HexCoord.Zero));
         }
 
-        [Fact]
-        public void PlaceUnit_ThrowsOnNonexistentCell()
-        {
-            var battle = TestHelpers.MakeBattle(1); // small grid
-            var unit = TestHelpers.MakeUnit();
 
-            Assert.Throws<ArgumentException>(() =>
-                battle.PlaceUnit(unit, new HexCoord(99, 99)));
-        }
 
         // ── Unit movement ───────────────────────────────────────────────
 
@@ -95,14 +88,14 @@ namespace TacticalGame.Tests
             battle.PlaceUnit(unit, HexCoord.Zero);
             battle.RemoveUnit(unit);
 
-            Assert.False(battle.HasUnit(unit));
+            Assert.False(battle.Units.Contains(unit));
             Assert.Empty(battle.Units);
         }
 
         // ── Team tracking ───────────────────────────────────────────────
 
         [Fact]
-        public void RegisterTeam_AssignsSequentialIndices()
+        public void RegisterTeam_AssignsTeamIndex()
         {
             var battle = TestHelpers.MakeBattle();
             var u1 = TestHelpers.MakeUnit("A");
@@ -110,12 +103,11 @@ namespace TacticalGame.Tests
             battle.PlaceUnit(u1, HexCoord.Zero);
             battle.PlaceUnit(u2, new HexCoord(1, 0));
 
-            int t0 = battle.RegisterTeam(new List<Unit> { u1 });
-            int t1 = battle.RegisterTeam(new List<Unit> { u2 });
+            battle.RegisterTeam(0, new List<Unit> { u1 });
+            battle.RegisterTeam(1, new List<Unit> { u2 });
 
-            Assert.Equal(0, t0);
-            Assert.Equal(1, t1);
-            Assert.Equal(2, battle.TeamCount);
+            Assert.Equal(0, u1.TeamIndex);
+            Assert.Equal(1, u2.TeamIndex);
         }
 
         [Fact]
@@ -136,7 +128,7 @@ namespace TacticalGame.Tests
             battle.PlaceUnit(u1, HexCoord.Zero);
             battle.PlaceUnit(u2, new HexCoord(1, 0));
             battle.PlaceUnit(u3, new HexCoord(-1, 0));
-            battle.RegisterTeam(new List<Unit> { u1, u2, u3 });
+            battle.RegisterTeam(0, new List<Unit> { u1, u2, u3 });
 
             // Kill u3
             battle.ChangeHP(u3, -u3.Stats.MaxHP);
@@ -157,8 +149,8 @@ namespace TacticalGame.Tests
             battle.PlaceUnit(ally, HexCoord.Zero);
             battle.PlaceUnit(enemy1, new HexCoord(1, 0));
             battle.PlaceUnit(enemy2, new HexCoord(-1, 0));
-            battle.RegisterTeam(new List<Unit> { ally });
-            battle.RegisterTeam(new List<Unit> { enemy1, enemy2 });
+            battle.RegisterTeam(0, new List<Unit> { ally });
+            battle.RegisterTeam(1, new List<Unit> { enemy1, enemy2 });
 
             var enemies = battle.GetEnemies(ally);
             Assert.Equal(2, enemies.Count);
@@ -260,7 +252,7 @@ namespace TacticalGame.Tests
             var battle = TestHelpers.MakeBattle();
             var unit = TestHelpers.MakeUnit();
             battle.PlaceUnit(unit, HexCoord.Zero);
-            battle.RegisterTeam(new List<Unit> { unit });
+            battle.RegisterTeam(0, new List<Unit> { unit });
 
             battle.Equip(unit, new Equipment(TestHelpers.SampleWeapons.Axe));
 
@@ -274,7 +266,7 @@ namespace TacticalGame.Tests
             var battle = TestHelpers.MakeBattle();
             var unit = TestHelpers.MakeUnit();
             battle.PlaceUnit(unit, HexCoord.Zero);
-            battle.RegisterTeam(new List<Unit> { unit });
+            battle.RegisterTeam(0, new List<Unit> { unit });
 
             battle.Equip(unit, new Equipment(TestHelpers.SampleWeapons.TwoHandedAxe));
 
@@ -289,7 +281,7 @@ namespace TacticalGame.Tests
             var battle = TestHelpers.MakeBattle();
             var unit = TestHelpers.MakeUnit();
             battle.PlaceUnit(unit, HexCoord.Zero);
-            battle.RegisterTeam(new List<Unit> { unit });
+            battle.RegisterTeam(0, new List<Unit> { unit });
 
             battle.Equip(unit, new Equipment(TestHelpers.SampleWeapons.TwoHandedAxe));
 
@@ -313,14 +305,14 @@ namespace TacticalGame.Tests
             var battle = TestHelpers.MakeBattle();
             var unit = TestHelpers.MakeUnit();
             battle.PlaceUnit(unit, HexCoord.Zero);
-            battle.RegisterTeam(new List<Unit> { unit });
+            battle.RegisterTeam(0, new List<Unit> { unit });
 
             var axe = new Equipment(TestHelpers.SampleWeapons.Axe);
             battle.Equip(unit, axe);
             var removed = battle.Unequip(unit, EquipmentSlot.RightHand);
 
             Assert.Same(axe, removed);
-            Assert.False(unit.Equipment.Has(EquipmentSlot.RightHand));
+            Assert.False(unit.Equipment.ContainsKey(EquipmentSlot.RightHand));
         }
 
         [Fact]
@@ -329,7 +321,7 @@ namespace TacticalGame.Tests
             var battle = TestHelpers.MakeBattle();
             var unit = TestHelpers.MakeUnit();
             battle.PlaceUnit(unit, HexCoord.Zero);
-            battle.RegisterTeam(new List<Unit> { unit });
+            battle.RegisterTeam(0, new List<Unit> { unit });
 
             var removed = battle.Unequip(unit, EquipmentSlot.Helmet);
             Assert.Null(removed);

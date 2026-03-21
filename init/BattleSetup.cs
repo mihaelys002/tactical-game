@@ -22,6 +22,7 @@ namespace TacticalGame
             if (units.Count != positions.Count)
                 throw new ArgumentException("Units and positions count mismatch.");
 
+            int teamIndex = _teams.Count;
             var team = new List<Unit>();
             _teams.Add(team);
 
@@ -31,7 +32,7 @@ namespace TacticalGame
                 team.Add(units[i]);
             }
 
-            Battle.RegisterTeam(team);
+            Battle.RegisterTeam(teamIndex, team);
         }
 
         // ─── Prototype Helpers ──────────────────────────────────────────
@@ -69,7 +70,8 @@ namespace TacticalGame
                     if (hash % 5 == 0) terrain = TerrainType.Forest;
                     if (hash % 7 == 0) terrain = TerrainType.Hill;
 
-                    grid.AddCell(new HexCoord(q, r), terrain, terrain == TerrainType.Hill ? 1 : 0);
+                    var coord = new HexCoord(q, r);
+                    grid.Cells[coord] = new HexCell(coord, terrain, terrain == TerrainType.Hill ? 1 : 0);
                 }
             }
 
@@ -128,6 +130,14 @@ namespace TacticalGame
 
             public static readonly EquipmentDef Helmet = new("helmet", "Helmet", EquipmentSlot.Helmet,
                 5, new StatBonus(maxArmor: 20), Array.Empty<SkillDef>());
+
+            static SampleEquipment()
+            {
+                DefRegistry.Register(Axe);
+                DefRegistry.Register(Sword);
+                DefRegistry.Register(Shield);
+                DefRegistry.Register(Helmet);
+            }
         }
     }
 }

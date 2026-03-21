@@ -94,7 +94,7 @@ namespace TacticalGame.Prototype
             int fontSize = (int)(_hexSize * 0.28f);
             var iconColor = new Color(1f, 1f, 1f, 0.9f);
 
-            foreach (var eq in _unit.Equipment.All)
+            foreach (var eq in _unit.Equipment.Values)
             {
                 float angle = eq.Def.Slot switch
                 {

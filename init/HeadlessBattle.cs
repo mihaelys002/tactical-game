@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using TacticalGame.Grid;
 
@@ -35,12 +36,13 @@ namespace TacticalGame
 
         private static void PrintTeams(BattleManager manager)
         {
-            for (int t = 0; t < manager.TeamCount; t++)
+            var teams = GroupByTeam(manager);
+            foreach (var (teamIndex, units) in teams)
             {
-                Console.Write("Team " + t + ": ");
-                foreach (var u in manager.Teams[t])
+                Console.Write("Team " + teamIndex + ": ");
+                foreach (var u in units)
                 {
-                    var weapon = u.Equipment.Get(EquipmentSlot.RightHand);
+                    u.Equipment.TryGetValue(EquipmentSlot.RightHand, out var weapon);
                     Console.Write(u + "(" + (weapon?.Def.Name ?? "none") + ") ");
                 }
                 Console.WriteLine();
@@ -49,17 +51,18 @@ namespace TacticalGame
 
         private static void PrintSurvivors(BattleManager manager)
         {
-            for (int t = 0; t < manager.TeamCount; t++)
+            var teams = GroupByTeam(manager);
+            foreach (var (teamIndex, units) in teams)
             {
                 int alive = 0;
-                foreach (var u in manager.Teams[t])
+                foreach (var u in units)
                     if (u.IsAlive) alive++;
 
                 if (alive == 0) continue;
 
                 Console.Write(string.Create(CultureInfo.InvariantCulture,
-                    $"Team {t} ({alive} alive): "));
-                foreach (var u in manager.Teams[t])
+                    $"Team {teamIndex} ({alive} alive): "));
+                foreach (var u in units)
                 {
                     if (!u.IsAlive) continue;
                     Console.Write(string.Create(CultureInfo.InvariantCulture,
@@ -67,6 +70,21 @@ namespace TacticalGame
                 }
                 Console.WriteLine();
             }
+        }
+
+        private static SortedDictionary<int, List<Unit>> GroupByTeam(BattleManager manager)
+        {
+            var teams = new SortedDictionary<int, List<Unit>>();
+            foreach (var u in manager.Battle.Units)
+            {
+                if (!teams.TryGetValue(u.TeamIndex, out var list))
+                {
+                    list = new List<Unit>();
+                    teams[u.TeamIndex] = list;
+                }
+                list.Add(u);
+            }
+            return teams;
         }
     }
 }

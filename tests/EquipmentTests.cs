@@ -69,7 +69,7 @@ namespace TacticalGame.Tests
                 attackerWeapon: TestHelpers.SampleWeapons.Sword);
             battle.Equip(attacker, new Equipment(TestHelpers.SampleWeapons.Shield));
 
-            var skills = attacker.Equipment.AllGrantedSkills().ToList();
+            var skills = attacker.AllGrantedSkills().ToList();
             Assert.Equal(2, skills.Count); // Slash + ShieldWall
         }
 
@@ -77,7 +77,7 @@ namespace TacticalGame.Tests
         public void AllGrantedSkills_EmptyForNoEquipment()
         {
             var unit = TestHelpers.MakeUnit();
-            Assert.Empty(unit.Equipment.AllGrantedSkills());
+            Assert.Empty(unit.AllGrantedSkills());
         }
 
         [Fact]
@@ -87,7 +87,7 @@ namespace TacticalGame.Tests
             battle.Unequip(attacker, EquipmentSlot.RightHand);
             battle.Equip(attacker, new Equipment(TestHelpers.SampleWeapons.Helmet));
 
-            var skills = attacker.Equipment.AllGrantedSkills().ToList();
+            var skills = attacker.AllGrantedSkills().ToList();
             Assert.Empty(skills);
         }
 

@@ -202,7 +202,7 @@ namespace TacticalGame.Tests
 
             var loaded = SaveAndLoad(manager);
 
-            Assert.Equal(37, loaded.Battle.Grid.Count);
+            Assert.Equal(37, loaded.Battle.Grid.Cells.Count);
         }
 
         [Fact]
@@ -251,7 +251,6 @@ namespace TacticalGame.Tests
 
             var loaded = SaveAndLoad(manager);
 
-            Assert.Equal(2, loaded.TeamCount);
             Assert.Equal(0, loaded.Battle.Units[0].TeamIndex);
             Assert.Equal(1, loaded.Battle.Units[1].TeamIndex);
         }
@@ -264,7 +263,7 @@ namespace TacticalGame.Tests
             var loaded = SaveAndLoad(manager);
             var loadedU1 = loaded.Battle.Units[0];
 
-            var weapon = loadedU1.Equipment.Get(EquipmentSlot.RightHand);
+            loadedU1.Equipment.TryGetValue(EquipmentSlot.RightHand, out var weapon);
             Assert.NotNull(weapon);
             Assert.Equal("Axe", weapon.Def.Name);
         }
@@ -283,9 +282,10 @@ namespace TacticalGame.Tests
         private static BattleManager SaveAndLoad(BattleManager manager)
         {
             var stream = new MemoryStream();
-            BattleSave.Save(manager, stream);
+            BattleSave.Save(manager.Battle, stream);
             stream.Position = 0;
-            return BattleSave.Load(stream);
+            var state = BattleSave.Load(stream);
+            return new BattleManager(state, useThreads: false);
         }
     }
 }

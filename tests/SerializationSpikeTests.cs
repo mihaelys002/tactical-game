@@ -184,7 +184,7 @@ namespace TacticalGame.Tests
         }
 
         [Fact]
-        public void StructDictKey_RoundTrips()
+        public void StructDictKey_FailsWithoutTypeConverter()
         {
             var dict = new Dictionary<MyKey, string>
             {
@@ -193,11 +193,28 @@ namespace TacticalGame.Tests
             };
 
             var json = JsonConvert.SerializeObject(dict, Formatting.Indented);
-            var loaded = JsonConvert.DeserializeObject<Dictionary<MyKey, string>>(json)!;
 
-            Assert.Equal(2, loaded.Count);
-            Assert.Equal("hello", loaded[new MyKey(1, 2)]);
-            Assert.Equal("world", loaded[new MyKey(3, 4)]);
+            Assert.Throws<JsonSerializationException>(() =>
+                JsonConvert.DeserializeObject<Dictionary<MyKey, string>>(json));
+        }
+        // Spike: does MemberSerialization.Fields handle internal set?
+        [JsonObject(MemberSerialization.Fields)]
+        private class InternalSetFields
+        {
+            public string Name { get; internal set; } = "";
+            public int Value { get; internal set; }
+        }
+
+        [Fact]
+        public void FieldsMode_InternalSet_RoundTrips()
+        {
+            var original = new InternalSetFields { Name = "Test", Value = 42 };
+
+            var json = JsonConvert.SerializeObject(original);
+            var loaded = JsonConvert.DeserializeObject<InternalSetFields>(json)!;
+
+            Assert.Equal("Test", loaded.Name);
+            Assert.Equal(42, loaded.Value);
         }
     }
 }

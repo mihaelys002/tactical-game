@@ -10,7 +10,7 @@ namespace TacticalGame.Grid
         public int Weight { get; }
         public StatBonus Bonus { get; }
         public bool IsTwoHanded { get; }
-        public IReadOnlyList<SkillDef> GrantedSkills { get; }
+        public List<SkillDef> GrantedSkills { get; }
 
         public EquipmentDef(string id, string name, EquipmentSlot slot,
             int weight, StatBonus bonus, IReadOnlyList<SkillDef> grantedSkills,
@@ -22,7 +22,7 @@ namespace TacticalGame.Grid
             Weight = weight;
             Bonus = bonus;
             IsTwoHanded = isTwoHanded;
-            GrantedSkills = grantedSkills;
+            GrantedSkills = new List<SkillDef>(grantedSkills);
         }
 
         public override string ToString() => $"EquipmentDef({Id})";

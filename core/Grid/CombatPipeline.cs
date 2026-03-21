@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace TacticalGame.Grid
 {
     public static class CombatPipeline
@@ -19,6 +21,15 @@ namespace TacticalGame.Grid
                     trait.ModifyEffects(cmd, target);
 
             // Step 4: Finalize
+            return cmd.Finalize();
+        }
+
+        public static CompoundCommand ResolveRecovery(Unit unit)
+        {
+            var cmd = new PrototypeCommand(CommandType.RoundRecovery, unit, null!, null!, unit.Position, new List<Unit> { unit });
+            cmd.Effects.Add(new FatigueEffect(unit, -CombatCalculations.DefaultFatigueRecovery) { IsEssential = true });
+            foreach (var trait in unit.Traits)
+                trait.ModifyEffects(cmd, unit); 
             return cmd.Finalize();
         }
     }

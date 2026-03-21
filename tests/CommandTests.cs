@@ -200,7 +200,7 @@ namespace TacticalGame.Tests
             var battle = TestHelpers.MakeBattle();
             var attacker = TestHelpers.MakeUnit("Attacker");
             battle.PlaceUnit(attacker, HexCoord.Zero);
-            battle.RegisterTeam(new List<Unit> { attacker });
+            battle.RegisterTeam(0, new List<Unit> { attacker });
             battle.Equip(attacker, new Equipment(TestHelpers.SampleWeapons.Axe));
 
             var emptyHex = new HexCoord(1, 0);

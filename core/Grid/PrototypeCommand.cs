@@ -2,8 +2,11 @@ using System.Collections.Generic;
 
 namespace TacticalGame.Grid
 {
+    public enum CommandType { Attack, RoundRecovery }
+
     public class PrototypeCommand
     {
+        public CommandType Type { get; }
         public Unit Unit { get; }
         public EquipmentDef Weapon { get; }
         public SkillDef Skill { get; }
@@ -11,9 +14,10 @@ namespace TacticalGame.Grid
         public IReadOnlyList<Unit> HitTargets { get; }
         public List<BattleEffect> Effects { get; } = new();
 
-        public PrototypeCommand(Unit unit, EquipmentDef weapon, SkillDef skill,
+        public PrototypeCommand(CommandType type, Unit unit, EquipmentDef weapon, SkillDef skill,
             HexCoord targetHex, IReadOnlyList<Unit> hitTargets)
         {
+            Type = type;
             Unit = unit;
             Weapon = weapon;
             Skill = skill;
@@ -23,7 +27,7 @@ namespace TacticalGame.Grid
 
         public CompoundCommand Finalize()
         {
-            return new CompoundCommand(Unit, Weapon, Skill, TargetHex, Effects.AsReadOnly());
+            return new CompoundCommand(Unit, Weapon, Skill, TargetHex, new List<BattleEffect>(Effects));
         }
     }
 }

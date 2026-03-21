@@ -158,7 +158,7 @@ namespace TacticalGame.Tests
             var battle = TestHelpers.MakeBattle();
             var attacker = TestHelpers.MakeUnit("Attacker");
             battle.PlaceUnit(attacker, HexCoord.Zero);
-            battle.RegisterTeam(new List<Unit> { attacker });
+            battle.RegisterTeam(0, new List<Unit> { attacker });
             battle.Equip(attacker, new Equipment(TestHelpers.SampleWeapons.Axe));
 
             var cmd = CombatPipeline.Resolve(attacker, TestHelpers.SampleWeapons.Axe,
@@ -177,10 +177,10 @@ namespace TacticalGame.Tests
         private sealed class DoubleDamageTrait : ITrait
         {
             public string Id => "double_damage";
-            public void ModifyEffects(PrototypeCommand cmd, Unit owner)
+            public void ModifyEffects(PrototypeCommand cmd, Unit traitOwner)
             {
                 foreach (var effect in cmd.Effects)
-                    if (effect is DamageEffect dmg && dmg.Source == owner)
+                    if (effect is DamageEffect dmg && dmg.Source == traitOwner)
                         dmg.Amount *= 2;
             }
         }
@@ -188,10 +188,10 @@ namespace TacticalGame.Tests
         private sealed class HalveDamageTrait : ITrait
         {
             public string Id => "halve_damage";
-            public void ModifyEffects(PrototypeCommand cmd, Unit owner)
+            public void ModifyEffects(PrototypeCommand cmd, Unit traitOwner)
             {
                 foreach (var effect in cmd.Effects)
-                    if (effect is DamageEffect dmg && dmg.Target == owner)
+                    if (effect is DamageEffect dmg && dmg.Target == traitOwner)
                         dmg.Amount /= 2;
             }
         }

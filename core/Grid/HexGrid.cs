@@ -1,41 +1,34 @@
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace TacticalGame.Grid
 {
     public class HexGrid
     {
-        private readonly Dictionary<HexCoord, HexCell> _cells = new();
+        [JsonIgnore]
+        public Dictionary<HexCoord, HexCell> Cells { get; } = new();
 
-        public int Count => _cells.Count;
-
-        public void AddCell(HexCoord coord, TerrainType terrain, int elevation)
+        [JsonProperty]
+        private List<HexCell> _serializedCells
         {
-            _cells[coord] = new HexCell(coord, terrain, elevation);
+            get => Cells.Values.ToList();
+            init
+            {
+                Cells.Clear();
+                if (value == null) return;
+                foreach (var cell in value)
+                    Cells[cell.Coord] = cell;
+            }
         }
-
-        public bool TryGetCell(HexCoord coord, [NotNullWhen(true)] out HexCell? cell)
-        {
-            return _cells.TryGetValue(coord, out cell);
-        }
-
-        public HexCell? GetCell(HexCoord coord)
-        {
-            _cells.TryGetValue(coord, out var cell);
-            return cell;
-        }
-
-        public bool HasCell(HexCoord coord) => _cells.ContainsKey(coord);
 
         public IEnumerable<HexCell> GetNeighbors(HexCoord coord)
         {
             foreach (var neighbor in coord.Neighbors())
             {
-                if (_cells.TryGetValue(neighbor, out var cell))
+                if (Cells.TryGetValue(neighbor, out var cell))
                     yield return cell;
             }
         }
-
-        public IEnumerable<HexCell> AllCells => _cells.Values;
     }
 }

@@ -13,9 +13,9 @@ Mutations:
 - `ChangeArmor`, `ChangeFatigue`, `ChangeMorale` — same pattern
 
 Team tracking:
-- `RegisterTeam(List<Unit>)` → team index
-- `Unit.TeamIndex` — set by `RegisterTeam`, read directly
-- `GetAllies(unit)`, `GetEnemies(unit)`
+- `RegisterTeam(int teamIndex, List<Unit>)` — sets `TeamIndex` on each unit
+- `Unit.TeamIndex` — read directly, no separate team collection
+- `GetAllies(unit)`, `GetEnemies(unit)` — filter `Units` by `TeamIndex`
 
 ## HexCell
 

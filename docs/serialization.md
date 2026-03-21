@@ -6,7 +6,35 @@
 
 ## Three ways to serialize readonly/private members
 
-### 1. Constructor parameter matching (no attributes)
+Prefer `[JsonObject(MemberSerialization.Fields)]` on the class over `[JsonProperty]` on individual fields.
+
+### 1. `[JsonObject(MemberSerialization.Fields)]` on the class (preferred)
+
+Serializes **all** fields (including private and readonly) automatically. No per-member attributes needed.
+
+```csharp
+[JsonObject(MemberSerialization.Fields)]
+public class BattleState
+{
+    private readonly HexGrid _grid;          // serialized
+    private readonly List<Unit> _units;      // serialized
+    private readonly List<List<Unit>> _teams; // serialized
+}
+```
+
+### 2. `[JsonProperty]` on individual members
+
+Use when only specific private members need serialization, or on classes where `Fields` mode isn't appropriate.
+
+```csharp
+public class BattleManager
+{
+    [JsonProperty]
+    private int _turnNumber;       // private field → serialized
+}
+```
+
+### 3. Constructor parameter matching (no attributes)
 
 Newtonsoft matches JSON property names to constructor parameter names (case-insensitive).
 After construction, it sets any remaining `public set` properties directly.
@@ -26,32 +54,6 @@ public class DamageEffect : BattleEffect
 }
 ```
 
-### 2. `[JsonProperty]` on individual members
-
-Marks a private or readonly field/property for serialization. Newtonsoft will read and write it directly.
-
-```csharp
-public class BattleManager
-{
-    [JsonProperty]
-    private int _turnNumber;       // private field → serialized
-}
-```
-
-### 3. `[JsonObject(MemberSerialization.Fields)]` on the class
-
-Serializes **all** fields (including private and readonly) automatically. No per-member attributes needed.
-
-```csharp
-[JsonObject(MemberSerialization.Fields)]
-public class MyClass
-{
-    private readonly string _name;   // serialized
-    private readonly int _value;     // serialized
-    private set AppliedValue;        // serialized
-}
-```
-
 ## What works without any of the above
 
 - **Public-set properties** — handled automatically
@@ -68,4 +70,5 @@ public class MyClass
 PreserveReferencesHandling = PreserveReferencesHandling.All  // shared Unit refs stay shared
 TypeNameHandling = TypeNameHandling.Auto                     // polymorphic (BattleEffect subclasses)
 ConstructorHandling = AllowNonPublicDefaultConstructor
+ObjectCreationHandling = ObjectCreationHandling.Replace      // always create new collections, never append to existing
 ```

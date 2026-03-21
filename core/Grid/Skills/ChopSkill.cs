@@ -19,7 +19,7 @@ namespace TacticalGame.Grid.Skills
             HexCoord targetHex, BattleState battle)
         {
             var hitTargets = CombatCalculations.ResolveTargets(user, HitPattern, targetHex, battle);
-            var cmd = new PrototypeCommand(user, weapon, this, targetHex, hitTargets);
+            var cmd = new PrototypeCommand(CommandType.Attack, user, weapon, this, targetHex, hitTargets);
 
             foreach (var target in hitTargets)
             {

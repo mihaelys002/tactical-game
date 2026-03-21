@@ -31,8 +31,8 @@ namespace TacticalGame.Tests
 
             battle.PlaceUnit(attacker, HexCoord.Zero);
             battle.PlaceUnit(defender, new HexCoord(4, 0)); // far away
-            battle.RegisterTeam(new List<Unit> { attacker });
-            battle.RegisterTeam(new List<Unit> { defender });
+            battle.RegisterTeam(0, new List<Unit> { attacker });
+            battle.RegisterTeam(1, new List<Unit> { defender });
             battle.Equip(attacker, new Equipment(TestHelpers.SampleWeapons.Axe));
 
             var bb = new AIBlackboard(battle, attacker);
@@ -51,7 +51,7 @@ namespace TacticalGame.Tests
             var battle = TestHelpers.MakeBattle();
             var unit = TestHelpers.MakeUnit();
             battle.PlaceUnit(unit, HexCoord.Zero);
-            battle.RegisterTeam(new List<Unit> { unit });
+            battle.RegisterTeam(0, new List<Unit> { unit });
             battle.Equip(unit, new Equipment(TestHelpers.SampleWeapons.Axe));
 
             var bb = new AIBlackboard(battle, unit);
@@ -88,8 +88,8 @@ namespace TacticalGame.Tests
             battle.PlaceUnit(attacker, HexCoord.Zero);
             battle.PlaceUnit(healthyEnemy, new HexCoord(1, 0));
             battle.PlaceUnit(woundedEnemy, new HexCoord(1, -1));
-            battle.RegisterTeam(new List<Unit> { attacker });
-            battle.RegisterTeam(new List<Unit> { healthyEnemy, woundedEnemy });
+            battle.RegisterTeam(0, new List<Unit> { attacker });
+            battle.RegisterTeam(1, new List<Unit> { healthyEnemy, woundedEnemy });
             battle.Equip(attacker, new Equipment(TestHelpers.SampleWeapons.Axe));
 
             // Wound one enemy significantly
