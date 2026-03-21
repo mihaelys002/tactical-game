@@ -1,5 +1,8 @@
+using Newtonsoft.Json;
+
 namespace TacticalGame.Grid
 {
+    [JsonObject(MemberSerialization.Fields)]
     public class MoveCommand : IBattleCommand
     {
         public Unit Unit { get; }
@@ -15,8 +18,7 @@ namespace TacticalGame.Grid
 
         public bool Execute(BattleState battle)
         {
-            var cell = battle.Grid.GetCell(To);
-            if (cell == null || !cell.IsWalkable)
+            if (!battle.Grid.Cells.TryGetValue(To, out var cell) || !cell.IsWalkable)
                 return false;
 
             battle.MoveUnit(Unit, To);

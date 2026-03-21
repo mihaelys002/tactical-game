@@ -31,4 +31,5 @@ tactical-game/
 | `docs/commands.md` | IBattleCommand, CompoundCommand, BattleEffect |
 | `docs/combat.md` | Pipeline, skills, traits, HitPattern, CombatCalcs |
 | `docs/state.md` | BattleState, HexCell, Unit, teams, mutations |
+| `docs/serialization.md` | BattleSave, Newtonsoft rules, no attributes needed |
 | `docs/visualization.md` | UnitVisual, CommandVisual, orchestrator |

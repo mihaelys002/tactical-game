@@ -29,15 +29,12 @@ namespace TacticalGame.Prototype
                 visual.QueueFree();
             _unitVisuals.Clear();
 
-            for (int t = 0; t < manager.TeamCount; t++)
+            foreach (var unit in manager.Battle.Units)
             {
-                foreach (var unit in manager.Teams[t])
-                {
-                    var visual = new UnitVisual();
-                    visual.Init(unit, t, _hexSize, HexToPixel(unit.Position));
-                    AddChild(visual);
-                    _unitVisuals[unit] = visual;
-                }
+                var visual = new UnitVisual();
+                visual.Init(unit, unit.TeamIndex, _hexSize, HexToPixel(unit.Position));
+                AddChild(visual);
+                _unitVisuals[unit] = visual;
             }
 
             QueueRedraw();
@@ -47,7 +44,7 @@ namespace TacticalGame.Prototype
         {
             if (_grid == null) return;
 
-            foreach (var cell in _grid.AllCells)
+            foreach (var cell in _grid.Cells.Values)
             {
                 var center = HexToPixel(cell.Coord);
                 var points = HexCorners(center);

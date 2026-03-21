@@ -7,15 +7,17 @@ namespace TacticalGame.Grid
     {
         private static readonly JsonSerializerSettings Settings = new()
         {
-            PreserveReferencesHandling = PreserveReferencesHandling.All,
+            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
             TypeNameHandling = TypeNameHandling.Auto,
             Formatting = Formatting.Indented,
-            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            ObjectCreationHandling = ObjectCreationHandling.Replace,
+            Converters = { new EquipmentDefConverter(), new SkillDefConverter(), new TraitConverter() }
         };
 
-        public static void Save(BattleState battle, Stream stream)
+        public static void Save(BattleState state, Stream stream)
         {
-            var json = JsonConvert.SerializeObject(battle, Settings);
+            var json = JsonConvert.SerializeObject(state, Settings);
             using var writer = new StreamWriter(stream, leaveOpen: true);
             writer.Write(json);
         }

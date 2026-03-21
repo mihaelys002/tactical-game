@@ -1,17 +1,21 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TacticalGame.Grid
 {
+    [JsonObject(MemberSerialization.Fields)]
     public class CompoundCommand : IBattleCommand
     {
         public Unit Unit { get; }
         public EquipmentDef Weapon { get; }
         public SkillDef Skill { get; }
         public HexCoord TargetHex { get; }
-        public IReadOnlyList<BattleEffect> Effects { get; }
+        public List<BattleEffect> Effects { get; }
+        private bool HasEssential => Effects.Exists(x => x.IsEssential);
+
 
         public CompoundCommand(Unit unit, EquipmentDef weapon, SkillDef skill,
-            HexCoord targetHex, IReadOnlyList<BattleEffect> effects)
+            HexCoord targetHex, List<BattleEffect> effects)
         {
             Unit = unit;
             Weapon = weapon;
@@ -22,11 +26,7 @@ namespace TacticalGame.Grid
 
         public bool Execute(BattleState battle)
         {
-            bool hasEssential = false;
-            foreach (var effect in Effects)
-                if (effect.IsEssential) { hasEssential = true; break; }
-
-            if (!hasEssential)
+            if (!HasEssential)
                 return false;
 
             foreach (var effect in Effects)

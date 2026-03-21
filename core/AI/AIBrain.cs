@@ -25,7 +25,7 @@ namespace TacticalGame.AI
         private static void ScoreSkills(Unit unit, AIBlackboard blackboard, List<AIAction> candidates)
         {
             // Self-cast skills (range 0) — score once, independent of enemies
-            foreach (var equipment in unit.Equipment.All)
+            foreach (var equipment in unit.Equipment.Values)
             {
                 foreach (var skill in equipment.Def.GrantedSkills)
                 {
@@ -46,7 +46,7 @@ namespace TacticalGame.AI
             {
                 int distance = unit.Position.DistanceTo(enemy.Position);
 
-                foreach (var equipment in unit.Equipment.All)
+                foreach (var equipment in unit.Equipment.Values)
                 {
                     foreach (var skill in equipment.Def.GrantedSkills)
                     {

@@ -21,7 +21,7 @@ namespace TacticalGame.Prototype
             foreach (var cmd in commands)
             {
                 var visual = CommandVisualFactory.Create(cmd, _visuals, _hexToPixel);
-                await visual.Play();
+                if (visual != null) await visual.Play();
             }
         }
 

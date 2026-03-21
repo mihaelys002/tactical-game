@@ -26,7 +26,7 @@ namespace TacticalGame.Grid.Skills
         public override PrototypeCommand CreateCommand(Unit user, EquipmentDef weapon,
             HexCoord targetHex, BattleState battle)
         {
-            var cmd = new PrototypeCommand(user, weapon, this, targetHex, new List<Unit>());
+            var cmd = new PrototypeCommand(CommandType.Attack, user, weapon, this, targetHex, new List<Unit>());
             cmd.Effects.Add(new FatigueEffect(user, FatigueCost) { IsEssential = true });
             return cmd;
         }

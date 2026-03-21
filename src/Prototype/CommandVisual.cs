@@ -79,7 +79,7 @@ namespace TacticalGame.Prototype
 
     public static class CommandVisualFactory
     {
-        public static CommandVisual Create(
+        public static CommandVisual? Create(
             IBattleCommand cmd,
             Dictionary<Unit, UnitVisual> visuals,
             Func<HexCoord, Godot.Vector2> hexToPixel)
@@ -88,7 +88,7 @@ namespace TacticalGame.Prototype
             {
                 MoveCommand move => new MoveVisual(move, visuals[move.Unit], hexToPixel),
                 CompoundCommand compound => new CompoundVisual(compound, visuals),
-                _ => throw new ArgumentException($"Unknown command type: {cmd.GetType()}")
+                _ => null
             };
         }
     }

@@ -132,12 +132,16 @@ namespace TacticalGame.Prototype
 
         private void UpdateStatus()
         {
-            var counts = new int[_manager.TeamCount];
-            for (int t = 0; t < _manager.TeamCount; t++)
-                foreach (var u in _manager.Teams[t])
-                    if (u.IsAlive) counts[t]++;
+            var counts = new SortedDictionary<int, int>();
+            foreach (var u in _manager.Battle.Units)
+            {
+                if (!counts.ContainsKey(u.TeamIndex))
+                    counts[u.TeamIndex] = 0;
+                if (u.IsAlive)
+                    counts[u.TeamIndex]++;
+            }
 
-            string teamInfo = string.Join("  ", counts.Select((c, i) => $"T{i}:{c}"));
+            string teamInfo = string.Join("  ", counts.Select(kv => $"T{kv.Key}:{kv.Value}"));
             string mode = _autoPlay ? "AUTO" : (_manager.UseThreads ? "Threaded" : "Single");
             _statusLabel.Text = $"Turn: {_manager.TurnNumber}  |  {teamInfo}  |  {mode}  |  SPACE/U/P/T/R";
         }

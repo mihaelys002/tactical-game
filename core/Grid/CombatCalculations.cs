@@ -5,6 +5,8 @@ namespace TacticalGame.Grid
 {
     public static class CombatCalculations
     {
+        public const int DefaultFatigueRecovery = 15;
+
         public static List<Unit> ResolveTargets(Unit user, HitPattern pattern,
             HexCoord targetHex, BattleState battle)
         {
@@ -12,8 +14,7 @@ namespace TacticalGame.Grid
             var targets = new List<Unit>();
             foreach (var hex in hitHexes)
             {
-                var cell = battle.Grid.GetCell(hex);
-                if (cell == null) continue;
+                if (!battle.Grid.Cells.TryGetValue(hex, out var cell)) continue;
                 foreach (var occupant in cell.Occupants)
                 {
                     if (occupant.IsAlive)

@@ -1,5 +1,8 @@
+using Newtonsoft.Json;
+
 namespace TacticalGame.Grid
 {
+    [JsonObject(MemberSerialization.Fields)]
     public class Equipment
     {
         public EquipmentDef Def { get; }
