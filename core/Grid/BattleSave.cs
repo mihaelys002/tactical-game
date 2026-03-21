@@ -12,7 +12,7 @@ namespace TacticalGame.Grid
             Formatting = Formatting.Indented,
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
             ObjectCreationHandling = ObjectCreationHandling.Replace,
-            Converters = { new EquipmentDefConverter(), new SkillDefConverter() }
+            Converters = { new EquipmentDefConverter(), new SkillDefConverter(), new TraitConverter() }
         };
 
         public static void Save(BattleState state, Stream stream)

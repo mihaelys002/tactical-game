@@ -7,6 +7,7 @@ namespace TacticalGame.Grid
     {
         private static readonly Dictionary<string, EquipmentDef> _equipment = new();
         private static readonly Dictionary<string, SkillDef> _skills = new();
+        private static readonly Dictionary<string, ITrait> _traits = new();
 
         public static void Register(EquipmentDef def)
         {
@@ -18,6 +19,11 @@ namespace TacticalGame.Grid
         public static void Register(SkillDef def)
         {
             _skills[def.Id] = def;
+        }
+
+        public static void Register(ITrait trait)
+        {
+            _traits[trait.Id] = trait;
         }
 
         public static EquipmentDef GetEquipment(string id)
@@ -34,10 +40,18 @@ namespace TacticalGame.Grid
             throw new KeyNotFoundException($"SkillDef '{id}' not found in registry.");
         }
 
+        public static ITrait GetTrait(string id)
+        {
+            if (_traits.TryGetValue(id, out var trait))
+                return trait;
+            throw new KeyNotFoundException($"ITrait '{id}' not found in registry.");
+        }
+
         public static void Clear()
         {
             _equipment.Clear();
             _skills.Clear();
+            _traits.Clear();
         }
     }
 }

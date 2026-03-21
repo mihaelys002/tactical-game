@@ -11,6 +11,7 @@ namespace TacticalGame.Grid
     {
         public int Q { get; }
         public int R { get; }
+        [Newtonsoft.Json.JsonIgnore]
         public int S => -Q - R;
 
         public static readonly HexCoord Zero = new(0, 0);

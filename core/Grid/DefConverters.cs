@@ -32,4 +32,19 @@ namespace TacticalGame.Grid
             return id == null ? null : DefRegistry.GetSkill(id);
         }
     }
+
+    public class TraitConverter : JsonConverter<ITrait>
+    {
+        public override void WriteJson(JsonWriter writer, ITrait? value, JsonSerializer serializer)
+        {
+            writer.WriteValue(value?.Id);
+        }
+
+        public override ITrait? ReadJson(JsonReader reader, Type objectType,
+            ITrait? existingValue, bool hasExistingValue, JsonSerializer serializer)
+        {
+            var id = reader.Value as string;
+            return id == null ? null : DefRegistry.GetTrait(id);
+        }
+    }
 }

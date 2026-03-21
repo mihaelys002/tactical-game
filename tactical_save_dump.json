@@ -1,0 +1,501 @@
+{
+  "$id": "1",
+  "_grid": {
+    "$id": "2",
+    "_serializedCells": [
+      {
+        "$id": "3",
+        "Coord": {
+          "$id": "4",
+          "Q": -3,
+          "R": 0
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "5",
+        "Coord": {
+          "$id": "6",
+          "Q": -3,
+          "R": 1
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "7",
+        "Coord": {
+          "$id": "8",
+          "Q": -3,
+          "R": 2
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "9",
+        "Coord": {
+          "$id": "10",
+          "Q": -3,
+          "R": 3
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "11",
+        "Coord": {
+          "$id": "12",
+          "Q": -2,
+          "R": -1
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "13",
+        "Coord": {
+          "$id": "14",
+          "Q": -2,
+          "R": 0
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "15",
+        "Coord": {
+          "$id": "16",
+          "Q": -2,
+          "R": 1
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "17",
+        "Coord": {
+          "$id": "18",
+          "Q": -2,
+          "R": 2
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "19",
+        "Coord": {
+          "$id": "20",
+          "Q": -2,
+          "R": 3
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "21",
+        "Coord": {
+          "$id": "22",
+          "Q": -1,
+          "R": -2
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "23",
+        "Coord": {
+          "$id": "24",
+          "Q": -1,
+          "R": -1
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "25",
+        "Coord": {
+          "$id": "26",
+          "Q": -1,
+          "R": 0
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "27",
+        "Coord": {
+          "$id": "28",
+          "Q": -1,
+          "R": 1
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "29",
+        "Coord": {
+          "$id": "30",
+          "Q": -1,
+          "R": 2
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "31",
+        "Coord": {
+          "$id": "32",
+          "Q": -1,
+          "R": 3
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "33",
+        "Coord": {
+          "$id": "34",
+          "Q": 0,
+          "R": -3
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "35",
+        "Coord": {
+          "$id": "36",
+          "Q": 0,
+          "R": -2
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "37",
+        "Coord": {
+          "$id": "38",
+          "Q": 0,
+          "R": -1
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "39",
+        "Coord": {
+          "$id": "40",
+          "Q": 0,
+          "R": 0
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "41",
+        "Coord": {
+          "$id": "42",
+          "Q": 0,
+          "R": 1
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "43",
+        "Coord": {
+          "$id": "44",
+          "Q": 0,
+          "R": 2
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "45",
+        "Coord": {
+          "$id": "46",
+          "Q": 0,
+          "R": 3
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "47",
+        "Coord": {
+          "$id": "48",
+          "Q": 1,
+          "R": -3
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "49",
+        "Coord": {
+          "$id": "50",
+          "Q": 1,
+          "R": -2
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "51",
+        "Coord": {
+          "$id": "52",
+          "Q": 1,
+          "R": -1
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "53",
+        "Coord": {
+          "$id": "54",
+          "Q": 1,
+          "R": 0
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "55",
+        "Coord": {
+          "$id": "56",
+          "Q": 1,
+          "R": 1
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "57",
+        "Coord": {
+          "$id": "58",
+          "Q": 1,
+          "R": 2
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "59",
+        "Coord": {
+          "$id": "60",
+          "Q": 2,
+          "R": -3
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "61",
+        "Coord": {
+          "$id": "62",
+          "Q": 2,
+          "R": -2
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "63",
+        "Coord": {
+          "$id": "64",
+          "Q": 2,
+          "R": -1
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "65",
+        "Coord": {
+          "$id": "66",
+          "Q": 2,
+          "R": 0
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "67",
+        "Coord": {
+          "$id": "68",
+          "Q": 2,
+          "R": 1
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "69",
+        "Coord": {
+          "$id": "70",
+          "Q": 3,
+          "R": -3
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "71",
+        "Coord": {
+          "$id": "72",
+          "Q": 3,
+          "R": -2
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "73",
+        "Coord": {
+          "$id": "74",
+          "Q": 3,
+          "R": -1
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      },
+      {
+        "$id": "75",
+        "Coord": {
+          "$id": "76",
+          "Q": 3,
+          "R": 0
+        },
+        "Terrain": 0,
+        "Elevation": 0
+      }
+    ]
+  },
+  "_units": [
+    {
+      "$id": "77",
+      "<Name>k__BackingField": "Attacker",
+      "<Position>k__BackingField": {
+        "$id": "78",
+        "Q": 0,
+        "R": 0
+      },
+      "<TeamIndex>k__BackingField": 0,
+      "<Stats>k__BackingField": {
+        "$id": "79",
+        "Attack": 10,
+        "Defense": 10,
+        "Resolve": 50,
+        "MaxHP": 100,
+        "CurrentHP": 100,
+        "MaxArmor": 50,
+        "CurrentArmor": 50,
+        "MaxFatigue": 60,
+        "CurrentFatigue": 6,
+        "Morale": 70
+      },
+      "<Equipment>k__BackingField": {
+        "$id": "80",
+        "RightHand": {
+          "$id": "81",
+          "<Def>k__BackingField": "axe",
+          "<CurrentDurability>k__BackingField": 100
+        }
+      },
+      "<Traits>k__BackingField": []
+    },
+    {
+      "$id": "82",
+      "<Name>k__BackingField": "Defender",
+      "<Position>k__BackingField": {
+        "$id": "83",
+        "Q": 1,
+        "R": -1
+      },
+      "<TeamIndex>k__BackingField": 1,
+      "<Stats>k__BackingField": {
+        "$id": "84",
+        "Attack": 10,
+        "Defense": 10,
+        "Resolve": 50,
+        "MaxHP": 100,
+        "CurrentHP": 100,
+        "MaxArmor": 50,
+        "CurrentArmor": 33,
+        "MaxFatigue": 60,
+        "CurrentFatigue": 0,
+        "Morale": 70
+      },
+      "<Equipment>k__BackingField": {
+        "$id": "85"
+      },
+      "<Traits>k__BackingField": []
+    }
+  ],
+  "_turnHistory": [
+    [
+      {
+        "$id": "86",
+        "$type": "TacticalGame.Grid.CompoundCommand, TacticalGame.Core",
+        "<Unit>k__BackingField": {
+          "$ref": "77"
+        },
+        "<Weapon>k__BackingField": "axe",
+        "<Skill>k__BackingField": "chop",
+        "<TargetHex>k__BackingField": {
+          "$id": "87",
+          "Q": 1,
+          "R": 0
+        },
+        "<Effects>k__BackingField": [
+          {
+            "$id": "88",
+            "$type": "TacticalGame.Grid.DamageEffect, TacticalGame.Core",
+            "<Source>k__BackingField": {
+              "$ref": "77"
+            },
+            "<Amount>k__BackingField": 17,
+            "<AppliedArmorDamage>k__BackingField": 17,
+            "<AppliedHpDamage>k__BackingField": 0,
+            "<Target>k__BackingField": {
+              "$ref": "82"
+            },
+            "<IsEssential>k__BackingField": true
+          },
+          {
+            "$id": "89",
+            "$type": "TacticalGame.Grid.FatigueEffect, TacticalGame.Core",
+            "<Amount>k__BackingField": 6,
+            "<AppliedFatigue>k__BackingField": 6,
+            "<Target>k__BackingField": {
+              "$ref": "77"
+            },
+            "<IsEssential>k__BackingField": false
+          }
+        ]
+      },
+      {
+        "$id": "90",
+        "$type": "TacticalGame.Grid.MoveCommand, TacticalGame.Core",
+        "<Unit>k__BackingField": {
+          "$ref": "82"
+        },
+        "<From>k__BackingField": {
+          "$id": "91",
+          "Q": 1,
+          "R": 0
+        },
+        "<To>k__BackingField": {
+          "$id": "92",
+          "Q": 1,
+          "R": -1
+        }
+      }
+    ]
+  ],
+  "_turnNumber": 1
+}
