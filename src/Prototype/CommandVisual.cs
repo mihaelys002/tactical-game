@@ -55,18 +55,23 @@ namespace TacticalGame.Prototype
         public override async Task Play()
         {
             if (_hasDamage)
-                await _userVisual.PlaySwing();
+            {
+                var primaryTarget = _targetEffects.Find(e => e.effect is DamageEffect).visual;
+                await _userVisual.PlaySwing(primaryTarget.Position);
+            }
 
             foreach (var (visual, effect) in _targetEffects)
             {
-                if (effect is DamageEffect)
+                if (effect is DamageEffect dmg)
                 {
-                    await visual.PlayHit();
-                    if (!visual.Unit.IsAlive)
+                    visual.ApplyVisualDamage(dmg.AppliedArmorDamage, dmg.AppliedHpDamage);
+                    await visual.PlayHit(dmg.AppliedArmorDamage + dmg.AppliedHpDamage);
+                    if (visual.VisuallyDead)
                         await visual.PlayDeath();
                 }
-                else if (effect is HealEffect)
+                else if (effect is HealEffect heal)
                 {
+                    visual.ApplyVisualHeal(heal.AppliedHeal);
                     visual.QueueRedraw();
                 }
             }

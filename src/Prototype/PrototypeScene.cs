@@ -106,14 +106,18 @@ namespace TacticalGame.Prototype
         private async void StepAndPlay()
         {
             _playing = true;
-            var commands = _manager.StepTurn();
+
+            if (!_orchestrator.HasPending)
+            {
+                var commands = _manager.StepTurn();
+                _orchestrator.Enqueue(commands);
+            }
+
             UpdateStatus();
-
-            await _orchestrator.PlayTurn(commands);
-
+            await _orchestrator.PlayBatch();
             _playing = false;
 
-            if (_manager.IsBattleOver() && !_autoPlay)
+            if (!_orchestrator.HasPending && _manager.IsBattleOver() && !_autoPlay)
                 AppendLog(">>> BATTLE OVER <<<");
 
             UpdateStatus();
