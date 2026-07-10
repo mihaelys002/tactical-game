@@ -14,6 +14,8 @@ namespace TacticalGame.Prototype
 
         public IReadOnlyDictionary<Unit, UnitVisual> UnitVisuals => _unitVisuals;
 
+        public float HexSize => _hexSize;
+
         public Vector2 HexToPixel(HexCoord coord)
         {
             float x = _hexSize * (1.5f * coord.Q);

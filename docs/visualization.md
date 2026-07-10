@@ -29,3 +29,17 @@ Iterates cmds, creates visuals, awaits `Play()`.
 ## GridVisualizer
 
 Draws hex grid terrain. `HexToPixel()` for coord conversion.
+
+## VisualTheme / UnitLooks
+
+Visual decisions live outside visual nodes:
+- `VisualTheme.TeamColor(teamIndex)` — the TeamId→Color dictionary; nodes ask, never own palettes.
+- `UnitLookDef` — flyweight look (body color, portrait glyph; real art later). Not core Unit data.
+- `UnitLooks` — the Unit→look dictionary, assigned at scenario setup, read by visuals.
+
+## MessageBubbleLayer
+
+Speech bubbles for the message engine (see `docs/ai-banter.md`). Minimal deps:
+`MessageLine`s, a `Func<Unit, Vector2>` screen position, and VisualTheme/UnitLooks.
+Portrait + name + wrapped text above the speaker, tag-colored border, timed fade.
+`Show(line)`, `Clear()`, toggle with `M` in the prototype.

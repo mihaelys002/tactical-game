@@ -1,0 +1,12 @@
+{
+  "type": "HelpAlly",
+  "minTurns": 2,
+  "switchMargin": 10,
+  "selectionWeights": {
+    "allyHpMissing": 70,
+    "allyProximity": 30
+  },
+  "modifiers": {
+    "killTargetBonus": 40
+  }
+}

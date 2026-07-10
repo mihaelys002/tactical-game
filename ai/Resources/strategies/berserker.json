@@ -1,0 +1,14 @@
+{
+  "name": "Berserker",
+  "fitWeights": {
+    "attackPower": 50,
+    "hpRatio": 30,
+    "enemyProximity": 20
+  },
+  "goalPrefs": {
+    "KillUnit": 90
+  },
+  "modifiers": {
+    "aggressionBias": 0.7
+  }
+}

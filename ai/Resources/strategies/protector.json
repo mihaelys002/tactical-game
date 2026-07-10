@@ -1,0 +1,15 @@
+{
+  "name": "Protector",
+  "fitWeights": {
+    "armorRatio": 40,
+    "hpRatio": 35
+  },
+  "goalPrefs": {
+    "HelpAlly": 70,
+    "HoldPosition": 30,
+    "KillUnit": 25
+  },
+  "modifiers": {
+    "positionBonus": 20
+  }
+}

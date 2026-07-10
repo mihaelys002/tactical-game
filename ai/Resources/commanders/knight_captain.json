@@ -1,0 +1,12 @@
+{
+  "name": "KnightCaptain",
+  "aggressionBias": 0.1,
+  "strategyPrefs": {
+    "Protector": 60,
+    "Tank": 50,
+    "DPS": 40,
+    "Berserker": 20,
+    "Cautious": 20,
+    "Retreating": 5
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "HoldPosition",
+  "minTurns": 3,
+  "switchMargin": 20,
+  "selectionWeights": {
+    "constant": 25
+  },
+  "modifiers": {
+    "positionBonus": 30
+  }
+}

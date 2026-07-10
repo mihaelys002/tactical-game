@@ -16,6 +16,10 @@ while pending not empty (max 50):
 `PlanAction` delegate, default uses `AIBrain`.
 Returns `AIAction?` per unit. Planning never mutates state.
 
+Richer planners plug in as the delegate: `AIPlanner.Plan` (layer chain) or
+`TeamPlanner.Plan` (per-team routing). See `ai-layers.md`. Call `BeginTurn()`
+on the planner before each `StepTurn`.
+
 ## AIAction
 
 Abstract. Carries `Unit, Target, Score`. Subclasses:

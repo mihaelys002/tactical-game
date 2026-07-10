@@ -1,0 +1,13 @@
+{
+  "name": "Retreating",
+  "fitWeights": {
+    "hpMissing": 80
+  },
+  "goalPrefs": {
+    "HoldPosition": 20
+  },
+  "modifiers": {
+    "survivalBias": 100,
+    "aggressionBias": -0.5
+  }
+}

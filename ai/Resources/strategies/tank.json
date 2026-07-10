@@ -1,0 +1,16 @@
+{
+  "name": "Tank",
+  "fitWeights": {
+    "armorRatio": 60,
+    "hpRatio": 25
+  },
+  "goalPrefs": {
+    "HoldPosition": 60,
+    "HelpAlly": 40,
+    "KillUnit": 20
+  },
+  "modifiers": {
+    "positionBonus": 40,
+    "holdCurrentPosition": 1
+  }
+}

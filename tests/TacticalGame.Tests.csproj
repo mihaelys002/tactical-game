@@ -14,5 +14,6 @@
     <ProjectReference Include="..\core\TacticalGame.Core.csproj" />
     <ProjectReference Include="..\ai\TacticalGame.AI.csproj" />
     <ProjectReference Include="..\orchestration\TacticalGame.Orchestration.csproj" />
+    <ProjectReference Include="..\messages\TacticalGame.Messages.csproj" />
   </ItemGroup>
 </Project>

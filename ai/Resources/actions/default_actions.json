@@ -1,0 +1,9 @@
+{
+  "name": "DefaultActions",
+  "weights": {
+    "selfCastBase": 20,
+    "ownHpMissing": 80,
+    "enemyHpMissing": 100,
+    "moveStep": 30
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "UseSkill",
+  "minTurns": 1,
+  "switchMargin": 999,
+  "expireTurns": 3,
+  "selectionWeights": {},
+  "modifiers": {
+    "orderScore": 1000,
+    "preferredSkillBonus": 150,
+    "killTargetBonus": 50
+  }
+}

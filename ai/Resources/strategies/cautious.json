@@ -1,0 +1,16 @@
+{
+  "name": "Cautious",
+  "fitWeights": {
+    "hpMissing": 60,
+    "enemyProximity": 20
+  },
+  "goalPrefs": {
+    "KillUnit": 40,
+    "HoldPosition": 30
+  },
+  "modifiers": {
+    "aggressionBias": -0.2,
+    "survivalBiasWhenHurt": 100,
+    "hurtThreshold": 0.4
+  }
+}

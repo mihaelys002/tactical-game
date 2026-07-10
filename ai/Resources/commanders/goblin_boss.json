@@ -1,0 +1,12 @@
+{
+  "name": "GoblinBoss",
+  "aggressionBias": -0.2,
+  "strategyPrefs": {
+    "Cautious": 70,
+    "Retreating": 40,
+    "DPS": 30,
+    "Berserker": 5,
+    "Tank": 10,
+    "Protector": 15
+  }
+}

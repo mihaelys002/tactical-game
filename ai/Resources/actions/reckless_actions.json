@@ -1,0 +1,9 @@
+{
+  "name": "RecklessActions",
+  "weights": {
+    "selfCastBase": 5,
+    "ownHpMissing": 30,
+    "enemyHpMissing": 140,
+    "moveStep": 45
+  }
+}

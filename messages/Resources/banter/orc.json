@@ -1,0 +1,61 @@
+{
+  "pool": "orc_warband",
+  "voice": "Orc",
+  "requires": { "factionPresent": "Orcs" },
+  "rules": [
+    {
+      "when": "Killed",
+      "if": { "speakerIs": "actor", "chance": 0.7 },
+      "say": [
+        "{victim} was weak!",
+        "MORE! WHO NEXT?!",
+        "Skulls for the warchief!"
+      ],
+      "tags": [ "taunt" ],
+      "priority": 5,
+      "cooldown": 2
+    },
+    {
+      "when": "Said",
+      "if": { "speakerIs": "enemyOfActor", "tag": "taunt", "chance": 0.5 },
+      "say": [
+        "Big words, {actor}! Come die!",
+        "You talk too much, {actor}."
+      ],
+      "tags": [ "reply" ],
+      "priority": 4,
+      "cooldown": 3
+    },
+    {
+      "when": "Disobeyed",
+      "if": {},
+      "say": [
+        "Warchief say {commanderWanted}?! {unit} do {unitChose}!",
+        "{unit} no coward. {unit} fight own way!"
+      ],
+      "tags": [ "disobedience" ],
+      "priority": 10,
+      "cooldown": 4
+    },
+    {
+      "when": "StrategyAssigned",
+      "if": { "dataEquals": { "strategy": "Berserker" }, "chance": 0.6 },
+      "say": [
+        "BLOOD! BLOOD! BLOOD!",
+        "{unit} SMASH EVERYTHING!"
+      ],
+      "priority": 3,
+      "cooldown": 5
+    },
+    {
+      "when": "AllyDied",
+      "if": { "chance": 0.6 },
+      "say": [
+        "{killer}! You die next!",
+        "{ally} fought well. {killer} won't."
+      ],
+      "priority": 6,
+      "cooldown": 3
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "pool": "generic_battle",
+  "voice": "",
+  "requires": {},
+  "rules": [
+    {
+      "when": "Hurt",
+      "if": { "speakerIs": "target", "amountAtLeast": 25, "chance": 0.4 },
+      "say": [
+        "Argh! That one hurt...",
+        "{attacker} will pay for that!",
+        "I'm still standing!"
+      ],
+      "priority": 2,
+      "cooldown": 3
+    },
+    {
+      "when": "LastAlive",
+      "if": {},
+      "say": [
+        "So it falls to me alone.",
+        "I will not run. Come on then!"
+      ],
+      "priority": 8,
+      "once": "battle"
+    },
+    {
+      "when": "Killed",
+      "if": { "speakerIs": "actor", "grudgeAgainst": "target" },
+      "say": [
+        "That was for my brothers!",
+        "Debt paid, {victim}."
+      ],
+      "tags": [ "revenge" ],
+      "priority": 12,
+      "cooldown": 1
+    }
+  ]
+}
