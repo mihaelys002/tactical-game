@@ -2,7 +2,17 @@
 
 ## Overview
 
-`BattleSave` serializes the full `BattleManager` (state + undo history) using Newtonsoft.Json.
+`BattleSave` (core) serializes `BattleState` (state + undo history) using Newtonsoft.Json.
+
+`GameSave` (orchestration) is the whole-game save: `BattleState` **plus** each
+`UtilityAIPlanner`'s battle memory (strategies, goals, commander-phase stamp) in **one**
+json document — one document so `PreserveReferences` resolves planner goal targets to
+the same `Unit` instances as the loaded battle. It reuses `BattleSave.CreateSettings`
+(single source of serialization rules) plus two AI def-by-name converters
+(`StrategyDefConverter`, `GoalDefConverter`, resolving against an `AIDefRegistry`
+instance). Planners are rebuilt on load from the saved commander name; directors and
+action-weight assignments are config and must be re-attached by the caller, like the
+registry itself.
 
 ## Three ways to serialize readonly/private members
 

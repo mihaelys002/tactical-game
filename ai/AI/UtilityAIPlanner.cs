@@ -104,6 +104,36 @@ namespace TacticalGame.AI
                 return new List<DisobedienceEvent>(_disobedience);
         }
 
+        // ── Save/Load (see GameSave in orchestration) ─────────────────────
+        // Battle memory only: strategies, goals, commander phase stamp.
+        // Entries follow battle.Units order so identical sessions produce
+        // identical save files.
+
+        public string CommanderName => _commander.Name;
+
+        public PlannerSave ExportState(BattleState battle)
+        {
+            lock (_turnLock)
+            {
+                var entries = new List<PlannerSave.Entry>();
+                foreach (var unit in battle.Units)
+                    if (_states.TryGetValue(unit, out var state))
+                        entries.Add(new PlannerSave.Entry(unit, state));
+                return new PlannerSave(_commander.Name, _assignedTurn, entries);
+            }
+        }
+
+        public void ImportState(PlannerSave save)
+        {
+            lock (_turnLock)
+            {
+                _states.Clear();
+                foreach (var entry in save.Units)
+                    _states[entry.Unit] = entry.State;
+                _assignedTurn = save.AssignedTurn;
+            }
+        }
+
         // ── Entry point (PlanAction-compatible) ──────────────────────────
 
         public AIAction? Plan(Unit unit, BattleState battle)

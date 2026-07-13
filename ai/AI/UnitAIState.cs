@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using TacticalGame.AI.Utility;
 using TacticalGame.Grid;
 
@@ -5,6 +6,7 @@ namespace TacticalGame.AI
 {
     // A concrete, persistent objective: Kill Unit X / Help Ally Y / Hold (q,r) /
     // Move to (q,r) / Use skill S at target Y.
+    [JsonObject(MemberSerialization.Fields)]
     public class GoalInstance
     {
         public GoalDef Def { get; }
@@ -16,6 +18,8 @@ namespace TacticalGame.AI
 
         // Orders (OrderMoveTo / OrderUseSkill) survive strategy reassignment.
         public bool IsOrder { get; internal set; }
+
+        private GoalInstance() { Def = null!; } // serialization only
 
         public GoalInstance(GoalDef def, int startTurn, Unit? targetUnit = null,
             HexCoord? targetHex = null, SkillDef? skill = null)
@@ -54,6 +58,7 @@ namespace TacticalGame.AI
     // Per-unit AI memory. Written during the commander phase (under the
     // planner's turn lock) and by the unit's own planning thread — never
     // shared between planning threads.
+    [JsonObject(MemberSerialization.Fields)]
     public class UnitAIState
     {
         public StrategyDef? Strategy { get; internal set; }
