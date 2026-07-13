@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
-namespace TacticalGame.Grid
+namespace TacticalGame.State
 {
     [SuppressMessage("Performance", "CA1822", Justification = "Instance methods by design — BattleState is the mutation gateway")]
     [JsonObject(MemberSerialization.Fields)]

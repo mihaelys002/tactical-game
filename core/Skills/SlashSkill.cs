@@ -1,4 +1,4 @@
-namespace TacticalGame.Grid.Skills
+namespace TacticalGame.Skills
 {
     /// <summary>
     /// Quick sword strike. Balanced between unit skill and weapon.

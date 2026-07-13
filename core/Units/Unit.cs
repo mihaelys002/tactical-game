@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace TacticalGame.Grid
+namespace TacticalGame.Units
 {
     [JsonObject(MemberSerialization.Fields)]
     public class Unit

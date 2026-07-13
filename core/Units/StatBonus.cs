@@ -1,4 +1,4 @@
-namespace TacticalGame.Grid
+namespace TacticalGame.Units
 {
     public readonly struct StatBonus
     {

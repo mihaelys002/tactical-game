@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TacticalGame.Grid
+namespace TacticalGame.Items
 {
     public class EquipmentDef
     {

@@ -1,4 +1,4 @@
-namespace TacticalGame.Grid.Skills
+namespace TacticalGame.Skills
 {
     /// <summary>
     /// Heavy axe strike. Scales strongly off weapon attack bonus.

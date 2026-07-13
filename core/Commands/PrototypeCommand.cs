@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TacticalGame.Grid
+namespace TacticalGame.Commands
 {
     public enum CommandType { Attack, RoundRecovery }
 

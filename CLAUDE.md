@@ -16,7 +16,15 @@ tactical-game/
 ├── project.godot
 ├── TacticalGame.csproj          # Godot project (Godot.NET.Sdk 4.6.1), compiles src/
 ├── core/                        # TacticalGame.Core — pure C# model (.NET 9.0, no Godot)
-│   └── Grid/                    # Hex grid, units, combat, commands, serialization
+│   ├── Grid/                    # HexCoord, HexCell, HexGrid, TerrainType
+│   ├── Units/                   # Unit, UnitStats, ITrait, StatBonus
+│   ├── Items/                   # Equipment, EquipmentDef, EquipmentSlot
+│   ├── Combat/                  # CombatPipeline, CombatCalculations, HitPattern, BattleEffect
+│   ├── Commands/                # BattleCommands, MoveCommand, PrototypeCommand, CompoundCommand
+│   ├── Skills/                  # SkillDef + concrete skills
+│   ├── State/                   # BattleState (mutation gateway)
+│   └── Serialization/           # BattleSave, DefRegistry, DefConverters
+│                                # Namespaces match folders: TacticalGame.<Folder>; GlobalUsings.cs per project imports all core namespaces
 ├── ai/                          # TacticalGame.AI — decision-making (reads state, never mutates)
 │   └── AI/Layers/               # Commander/Strategy/Goal/Director layers
 ├── messages/                    # TacticalGame.Messages — banter engine (pure observer of core+ai)

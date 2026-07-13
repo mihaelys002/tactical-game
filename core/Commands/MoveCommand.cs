@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace TacticalGame.Grid
+namespace TacticalGame.Commands
 {
     [JsonObject(MemberSerialization.Fields)]
     public class MoveCommand : IBattleCommand

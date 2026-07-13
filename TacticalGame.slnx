@@ -1,0 +1,24 @@
+<Solution>
+  <Folder Name="/ai/">
+    <Project Path="ai/TacticalGame.AI.csproj" />
+  </Folder>
+  <Folder Name="/core/">
+    <Project Path="core/TacticalGame.Core.csproj" />
+  </Folder>
+  <Folder Name="/init/">
+    <Project Path="init/TacticalGame.Init.csproj" />
+  </Folder>
+  <Folder Name="/messages/">
+    <Project Path="messages/TacticalGame.Messages.csproj" />
+  </Folder>
+  <Folder Name="/orchestration/">
+    <Project Path="orchestration/TacticalGame.Orchestration.csproj" />
+  </Folder>
+  <Folder Name="/tests-visual/">
+    <Project Path="tests-visual/TacticalGame.Visual.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TacticalGame.Tests.csproj" />
+  </Folder>
+  <Project Path="TacticalGame.csproj" />
+</Solution>

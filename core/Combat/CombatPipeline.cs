@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TacticalGame.Grid
+namespace TacticalGame.Combat
 {
     public static class CombatPipeline
     {

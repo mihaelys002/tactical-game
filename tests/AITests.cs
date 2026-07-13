@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using TacticalGame.AI;
 using TacticalGame.Grid;
-using TacticalGame.Grid.Skills;
 using Xunit;
 
 namespace TacticalGame.Tests

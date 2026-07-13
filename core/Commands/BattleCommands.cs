@@ -1,4 +1,4 @@
-namespace TacticalGame.Grid
+namespace TacticalGame.Commands
 {
     public interface IBattleCommand
     {

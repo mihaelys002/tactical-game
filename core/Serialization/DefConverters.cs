@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace TacticalGame.Grid
+namespace TacticalGame.Serialization
 {
     public class EquipmentDefConverter : JsonConverter<EquipmentDef>
     {

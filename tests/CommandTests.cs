@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using TacticalGame.Grid;
-using TacticalGame.Grid.Skills;
 using Xunit;
 
 namespace TacticalGame.Tests
@@ -139,7 +138,7 @@ namespace TacticalGame.Tests
         {
             var unit = TestHelpers.MakeUnit();
             var weaponDef = TestHelpers.SampleWeapons.Axe;
-            var skill = new Grid.Skills.ChopSkill();
+            var skill = new ChopSkill();
 
             // No effects marked essential
             var effect = new FatigueEffect(unit, 5) { IsEssential = false };
@@ -158,7 +157,7 @@ namespace TacticalGame.Tests
         {
             var (battle, attacker, defender) = TestHelpers.MakeDuel();
             var weaponDef = TestHelpers.SampleWeapons.Axe;
-            var skill = new Grid.Skills.ChopSkill();
+            var skill = new ChopSkill();
 
             var dmg = new DamageEffect(attacker, defender, 20) { IsEssential = true };
             var fat = new FatigueEffect(attacker, 6);
@@ -183,7 +182,7 @@ namespace TacticalGame.Tests
             var dmg = new DamageEffect(attacker, defender, 20) { IsEssential = true };
             var fat = new FatigueEffect(attacker, 6);
             var cmd = new CompoundCommand(attacker, TestHelpers.SampleWeapons.Axe,
-                new Grid.Skills.ChopSkill(), defender.Position,
+                new ChopSkill(), defender.Position,
                 new List<BattleEffect> { dmg, fat });
 
             cmd.Execute(battle);

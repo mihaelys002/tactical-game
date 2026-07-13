@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TacticalGame.Grid.Skills
+namespace TacticalGame.Skills
 {
     /// <summary>
     /// Defensive stance. No damage — future: applies a defense buff.

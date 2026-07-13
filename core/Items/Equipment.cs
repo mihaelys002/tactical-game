@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace TacticalGame.Grid
+namespace TacticalGame.Items
 {
     [JsonObject(MemberSerialization.Fields)]
     public class Equipment

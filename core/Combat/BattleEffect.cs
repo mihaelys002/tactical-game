@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace TacticalGame.Grid
+namespace TacticalGame.Combat
 {
     [JsonObject(MemberSerialization.Fields)]
     public abstract class BattleEffect

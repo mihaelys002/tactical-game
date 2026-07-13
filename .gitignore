@@ -25,3 +25,7 @@ obj/
 .idea/
 *.user
 *.suo
+
+# Claude plugin cache
+.agents/
+skills-lock.json

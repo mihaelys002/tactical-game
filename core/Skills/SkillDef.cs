@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TacticalGame.Grid
+namespace TacticalGame.Skills
 {
     public abstract class SkillDef
     {
