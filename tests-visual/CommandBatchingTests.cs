@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using TacticalGame.Grid;
-using TacticalGame.Grid.Skills;
 using TacticalGame.Prototype;
 using Xunit;
 

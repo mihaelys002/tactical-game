@@ -1,0 +1,14 @@
+{
+  "name": "DPS",
+  "fitWeights": {
+    "attackPower": 60,
+    "hpRatio": 20
+  },
+  "goalPrefs": {
+    "KillUnit": 70,
+    "HelpAlly": 20
+  },
+  "modifiers": {
+    "aggressionBias": 0.3
+  }
+}

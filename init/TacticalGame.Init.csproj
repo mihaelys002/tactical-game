@@ -10,5 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\orchestration\TacticalGame.Orchestration.csproj" />
+    <ProjectReference Include="..\messages\TacticalGame.Messages.csproj" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,13 @@
+{
+  "type": "KillUnit",
+  "minTurns": 2,
+  "switchMargin": 15,
+  "selectionWeights": {
+    "enemyHpMissing": 60,
+    "proximity": 40,
+    "isPriorityTarget": 50
+  },
+  "modifiers": {
+    "killTargetBonus": 50
+  }
+}

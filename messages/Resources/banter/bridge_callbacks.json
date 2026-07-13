@@ -1,0 +1,25 @@
+{
+  "pool": "bridge_callbacks",
+  "voice": "",
+  "requires": { "chapterAtLeast": 3, "flag": "bridge_massacre" },
+  "rules": [
+    {
+      "when": "AllyDied",
+      "if": {},
+      "say": [
+        "Not again... not like the bridge."
+      ],
+      "priority": 9,
+      "once": "campaign"
+    },
+    {
+      "when": "Outnumbered",
+      "if": {},
+      "say": [
+        "Same odds as the bridge. We held then. We hold now."
+      ],
+      "priority": 9,
+      "once": "campaign"
+    }
+  ]
+}

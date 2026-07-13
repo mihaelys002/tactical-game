@@ -1,0 +1,11 @@
+{
+  "type": "MoveToPosition",
+  "minTurns": 1,
+  "switchMargin": 999,
+  "expireTurns": 0,
+  "selectionWeights": {},
+  "modifiers": {
+    "orderScore": 1000,
+    "positionBonus": 150
+  }
+}

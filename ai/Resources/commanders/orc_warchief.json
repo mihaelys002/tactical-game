@@ -1,0 +1,12 @@
+{
+  "name": "OrcWarchief",
+  "aggressionBias": 0.6,
+  "strategyPrefs": {
+    "Berserker": 80,
+    "DPS": 60,
+    "Tank": 20,
+    "Protector": 10,
+    "Cautious": 0,
+    "Retreating": 0
+  }
+}

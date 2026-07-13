@@ -1,0 +1,60 @@
+{
+  "pool": "goblin_tribe",
+  "voice": "Goblin",
+  "requires": { "factionPresent": "Goblins" },
+  "rules": [
+    {
+      "when": "Hurt",
+      "if": { "speakerIs": "target", "chance": 0.5 },
+      "say": [
+        "Ow ow ow! Why me?!",
+        "Not the face! NOT THE FACE!"
+      ],
+      "priority": 3,
+      "cooldown": 3
+    },
+    {
+      "when": "Killed",
+      "if": { "speakerIs": "actor", "chance": 0.6 },
+      "say": [
+        "Hehe! Stabbed good!",
+        "Big one falls down! Hehehe!"
+      ],
+      "tags": [ "taunt" ],
+      "priority": 5,
+      "cooldown": 2
+    },
+    {
+      "when": "Said",
+      "if": { "speakerIs": "enemyOfActor", "tag": "taunt", "isLosing": true, "chance": 0.6 },
+      "say": [
+        "We not scared! ...maybe little scared.",
+        "You no catch us, {actor}!"
+      ],
+      "tags": [ "reply" ],
+      "priority": 4,
+      "cooldown": 3
+    },
+    {
+      "when": "Outnumbered",
+      "if": { "chance": 0.7 },
+      "say": [
+        "Boss, we leave now yes?!",
+        "Too many! TOO MANY!"
+      ],
+      "priority": 7,
+      "cooldown": 4
+    },
+    {
+      "when": "Disobeyed",
+      "if": {},
+      "say": [
+        "Boss say {commanderWanted}... but {unit} think {unitChose} better. Don't tell boss.",
+        "{unit} hear boss. {unit} ignore boss."
+      ],
+      "tags": [ "disobedience" ],
+      "priority": 10,
+      "cooldown": 4
+    }
+  ]
+}

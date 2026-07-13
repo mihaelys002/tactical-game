@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using TacticalGame.Grid;
-using TacticalGame.Grid.Skills;
 
 namespace TacticalGame
 {

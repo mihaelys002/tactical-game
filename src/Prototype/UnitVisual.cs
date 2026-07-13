@@ -12,14 +12,6 @@ namespace TacticalGame.Prototype
         private int _teamIndex;
         private float _hexSize;
 
-        private static readonly Color[] TeamColors =
-        {
-            new(0.2f, 0.4f, 0.9f),
-            new(0.9f, 0.2f, 0.2f),
-            new(0.2f, 0.8f, 0.3f),
-            new(0.9f, 0.7f, 0.1f),
-        };
-
         private int _visualHP;
         private int _visualArmor;
 
@@ -129,9 +121,7 @@ namespace TacticalGame.Prototype
 
         public override void _Draw()
         {
-            Color color = _teamIndex >= 0 && _teamIndex < TeamColors.Length
-                ? TeamColors[_teamIndex]
-                : Colors.White;
+            Color color = VisualTheme.TeamColor(_teamIndex);
 
             DrawCircle(Vector2.Zero, _hexSize * 0.4f, color);
 
